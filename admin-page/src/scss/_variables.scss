@@ -1,0 +1,10 @@
+.sidebar {
+    color: black;
+    background: white;
+    .nav-link {
+        color: black;
+        &.active {
+            background: #20a8d8;
+        }
+    }
+}

@@ -1,0 +1,85 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header"><b>Employees</b></div>
+                <span style="margin-left: 20px;font-style: italic;margin-top: 20px;"><a (click)="openModalCreate()" href="javascript:;">Create new</a></span>
+                <div class="search-table-outter wrapper">
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Dob</th>
+                                    <th>Phone number</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let emp of employees">
+                                    <td>{{emp.userName}}</td>
+                                    <td>{{emp.email}}</td>
+                                    <td>{{emp.dob}}</td>
+                                    <td>{{emp.phoneNumber}}</td>
+                                    <td>{{emp.address}}</td>
+                                    <td>
+                                        <button (click)="openUpdateModal(emp)" class="btn btn-square btn-primary btn-sm">Update</button>
+                                        <button (click)="deactive(emp.employeeId)" class="btn btn-square btn-danger btn-sm">Deactive</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #modalCreate="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create new</h4>
+                <button type="button" class="close" (click)="modalCreate.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" name="username" [(ngModel)]="employee.userName" class="form-control" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" [(ngModel)]="employee.email" name="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="date" [(ngModel)]="employee.dob" name="dob" placeholder="Dob">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="phoneNumber" [(ngModel)]="employee.phoneNumber" class="form-control" placeholder="Phone Number">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="address" [(ngModel)]="employee.address" class="form-control" placeholder="Address">
+                    </div>
+                    <div class="form-group">
+                        <form class="form-inline">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio1" (change)="onItemChange(1)" checked name="customRadio" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio1">Male</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio2" (change)="onItemChange(2)" name="customRadio" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio2">Female</label>
+                            </div>
+                        </form>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-square btn-secondary" (click)="modalCreate.hide()">Close</button>
+                <button type="button" class="btn btn-square btn-primary" (click)="save()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
