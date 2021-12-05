@@ -22,6 +22,11 @@ import { LoginComponent } from './views/login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { ProductComponent } from './views/product/product.component';
+import { BlogComponent } from './views/blog/blog.component';
+import { CommentComponent } from './views/comment/comment.component';
+import { UserComponent } from './views/user/user.component';
+import { CartComponent } from './views/cart/cart.component';
 
 
 @NgModule({
@@ -48,7 +53,12 @@ import { ToastrModule } from 'ngx-toastr';
   declarations: [
     AppComponent,
     LayoutComponent,
-    LoginComponent
+    LoginComponent,
+    ProductComponent,
+    BlogComponent,
+    CommentComponent,
+    UserComponent,
+    CartComponent
   ],
   providers: [{
     provide: LocationStrategy,
