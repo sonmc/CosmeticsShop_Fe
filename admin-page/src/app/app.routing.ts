@@ -1,3 +1,4 @@
+import { BlogModule } from "./views/blog/blog.module";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
@@ -25,11 +26,31 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: "employee",
+        path: "blog",
         loadChildren: () =>
-          import("./views/employee/employee.module").then(
-            (m) => m.EmployeeModule
+          import("./views/blog/blog.module").then((m) => m.BlogModule),
+      },
+      {
+        path: "cart",
+        loadChildren: () =>
+          import("./views/cart/cart.module").then((m) => m.CartModule),
+      },
+      {
+        path: "category",
+        loadChildren: () =>
+          import("./views/category/category.module").then(
+            (m) => m.CategoryModule
           ),
+      },
+      {
+        path: "product",
+        loadChildren: () =>
+          import("./views/product/product.module").then((m) => m.ProductModule),
+      },
+      {
+        path: "user",
+        loadChildren: () =>
+          import("./views/user/user.module").then((m) => m.UserModule),
       },
     ],
   },

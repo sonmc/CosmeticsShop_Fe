@@ -22,7 +22,7 @@ export class ApiService {
   }
 
   postWithToken = (url, data): Observable<any> => {
-    let user = this.localStorageService.get('employee');
+    let user = this.localStorageService.get('user');
     let token = user ? user['token'] : null;
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
@@ -30,7 +30,7 @@ export class ApiService {
   }
 
   getWithToken = (url): Observable<any> => {
-    let user = this.localStorageService.get('employee');
+    let user = this.localStorageService.get('user');
     let token = user ? user['token'] : null;
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
@@ -38,7 +38,7 @@ export class ApiService {
   }
 
   uploadFileWithToken = (url, file): Observable<any> => {
-    let user = this.localStorageService.get('employee');
+    let user = this.localStorageService.get('user');
     let token = user ? user['token'] : null;
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);

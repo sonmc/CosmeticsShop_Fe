@@ -1,6 +1,4 @@
-import { Injectable } from '@angular/core';
-
-import { Employee } from '../../models/user/user';
+import { Injectable } from '@angular/core'; 
 import { ApiService } from '../api/api.service';
 import { API_URL } from '../../constants/config';
 
@@ -11,21 +9,15 @@ import { API_URL } from '../../constants/config';
 export class UserService {
   constructor(public apiService: ApiService) { }
 
-  convertUser = (info: Object): Employee => {
-    let user = new Employee();
-    user.employeeId = info['employeeId'];
-    user.username = info['userName'];
-    user.token = info['token'];
-    return user;
-  }
-
-  get = (teamId, branchId) => {
-    let url = `${API_URL}user/get?teamId=${teamId}&branchId=${branchId}`;
+  
+  get = () => {
+    let url = `${API_URL}users/get`;
     return this.apiService.getWithToken(url);
   }
+  
   create = (user): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}user/create`;
+      let url = `${API_URL}users/create`;
       this.apiService.postWithToken(url, user).subscribe(res => {
         resolve(res);
       }, err => {
@@ -36,7 +28,7 @@ export class UserService {
 
   deactive = (id): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}user/deactive?id=${id}`;
+      let url = `${API_URL}users/deactive?id=${id}`;
       this.apiService.getWithToken(url).subscribe(res => {
         resolve(res);
       }, err => {

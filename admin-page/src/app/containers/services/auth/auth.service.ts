@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { API_URL } from './../../constants/config';
 import { LocalStorageService } from './../localStorage/local-storage.service';
-import { ApiService } from './../api/api.service';
-import { Employee } from '../../models/user/user';
+import { ApiService } from './../api/api.service'; 
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class AuthService {
 
   login = (username: string, password: string): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}user/login`;
+      let url = `${API_URL}users/login`;
       this.httpClient.post(url, { username, password })
         .subscribe(res => {
           resolve(res);
@@ -27,23 +26,23 @@ export class AuthService {
   }
 
   logout = () => {
-    this.localStorageService.delete('employee');
+    this.localStorageService.delete('user');
   }
 
   isLogin = () => {
-    let user = this.localStorageService.get('employee'); 
+    let user = this.localStorageService.get('user'); 
     if (user && typeof user === 'object') {
       return  user['token'];
     }
     return false;
   }
 
-  saveLocal = (employee: Employee) => {
-    this.localStorageService.set('employee', employee);
+  saveLocal = (user: any) => {
+    this.localStorageService.set('user', user);
   }
 
-  getLocal = (): Employee => {
-    return this.localStorageService.get('employee');
+  getLocal = (): any => {
+    return this.localStorageService.get('user');
   }
 
   getToken = (): string => {
@@ -53,7 +52,7 @@ export class AuthService {
 
   changePassword = (oldPassword, newPassword, confirmPassword, id) => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}user/change-password`;
+      let url = `${API_URL}users/change-password`;
       this.apiService.postWithToken(url, { oldPassword, newPassword, confirmPassword, id })
         .subscribe(res => {
           resolve(res);
