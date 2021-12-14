@@ -1,1 +1,132 @@
-<p>product works!</p>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header"><b>Products</b></div>
+        <span style="margin-left: 20px; font-style: italic; margin-top: 20px"
+          ><a (click)="openModal('', 'add')" href="javascript:;"
+            >Create new</a
+          ></span
+        >
+        <div class="search-table-outter wrapper">
+          <div class="card-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Category Name</th>
+                  <th>Description</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let u of products">
+                  <td><img src="product.image" /></td>
+                  <td>{{ product.name }}</td>
+                  <td>{{ product.listedPrice }}</td>
+                  <td>{{ product.categoryName }}</td>
+                  <td>{{ product.description }}</td>
+                  <td>
+                    <button
+                      (click)="openModal(product, 'edit')"
+                      class="btn btn-square btn-primary btn-sm"
+                    >
+                      Update
+                    </button>
+                    <button
+                      (click)="remove(product.id)"
+                      class="btn btn-square btn-danger btn-sm"
+                    >
+                      delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  bsModal
+  #modalCreate="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          {{ type === "add" ? "Create new" : "Update" }}
+        </h4>
+        <button
+          type="button"
+          class="close"
+          (click)="modalCreate.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input
+              type="text"
+              name="name"
+              [(ngModel)]="product.name"
+              class="form-control"
+              placeholder="Product Name"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="product.listedPrice"
+              name="listedPrice"
+              placeholder="Listed Price"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="product.description"
+              name="description"
+              placeholder="Description"
+            />
+          </div>
+          <div class="form-group">
+            <select class="form-control">
+              <option *ngFor="let ca of categories">{{ ca.name }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-square btn-secondary"
+          (click)="modalCreate.hide()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-square btn-primary"
+          (click)="save()"
+        >
+          Create
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

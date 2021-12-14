@@ -2,13 +2,13 @@ import { INavData } from "@coreui/angular";
 
 export const navItems: INavData[] = [
   {
-    name: "User",
-    url: "/user",
+    name: "Customer",
+    url: "/customer",
     icon: "icon-cursor",
   },
   {
-    name: "Blog",
-    url: "/blog",
+    name: "Product",
+    url: "/product",
     icon: "icon-cursor",
   },
   {
@@ -22,8 +22,13 @@ export const navItems: INavData[] = [
     icon: "icon-cursor",
   },
   {
-    name: "Product",
-    url: "/product",
+    name: "Blog",
+    url: "/blog",
+    icon: "icon-cursor",
+  },
+  {
+    name: "Composition",
+    url: "/composition",
     icon: "icon-cursor",
   },
 ];

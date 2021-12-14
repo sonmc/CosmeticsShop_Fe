@@ -1,6 +1,6 @@
-import { UserComponent } from "./user.component";
+import { CustomerComponent } from "./customer.component";
 import { NgModule } from "@angular/core";
-import { UserRoutingModule } from "./user-routing.module";
+import { CustomerRoutingModule } from "./customer-routing.module";
 
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
@@ -8,11 +8,11 @@ import { ModalModule } from "ngx-bootstrap/modal";
 
 @NgModule({
   imports: [
-    UserRoutingModule,
+    CustomerRoutingModule,
     CommonModule,
     FormsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
-  declarations: [UserComponent],
+  declarations: [CustomerComponent],
 })
-export class UserModule {}
+export class CustomerModule {}

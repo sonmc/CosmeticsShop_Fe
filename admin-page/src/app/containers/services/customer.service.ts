@@ -1,34 +1,34 @@
 import { Injectable } from '@angular/core'; 
-import { ApiService } from '../api/api.service';
-import { API_URL } from '../../constants/config';
+import { ApiService } from './api/api.service';
+import { API_URL } from '../constants/config';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class UserService {
+export class CustomerService {
   constructor(public apiService: ApiService) { }
 
   
   get = () => {
-    let url = `${API_URL}users/get`;
+    let url = `${API_URL}customers/get`;
     return this.apiService.getWithToken(url);
   }
   
-  create = (user): Promise<Object> => {
+  save = (customer, type): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}users/create`;
-      this.apiService.postWithToken(url, user).subscribe(res => {
+      let url = `${API_URL}customers/${type}`; 
+      this.apiService.postWithToken(url, customer).subscribe(res => {
         resolve(res);
       }, err => {
         reject(err);
       })
     })
   }
-
-  deactive = (id): Promise<Object> => {
+ 
+  remove = (id): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}users/deactive?id=${id}`;
+      let url = `${API_URL}customers/delete?id=${id}`;
       this.apiService.getWithToken(url).subscribe(res => {
         resolve(res);
       }, err => {
@@ -36,5 +36,6 @@ export class UserService {
       })
     })
   }
+ 
 
 }

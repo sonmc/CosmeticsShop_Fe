@@ -1,1 +1,51 @@
-<p>cart works!</p>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header"><b>Carts</b></div>
+        <span style="margin-left: 20px; font-style: italic; margin-top: 20px">
+          <a (click)="openModal('', 'create')" href="javascript:;"
+            >Create new</a
+          >
+        </span>
+        <div class="search-table-outter wrapper">
+          <div class="card-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>OrderCode</th>
+                  <th>Customer name</th>
+                  <th>Customer address</th>
+                  <th>Customer phone number</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ca of carts">
+                  <td><a href="javascript:;" title="Click to view details">{{ ca.orderCode }}</a></td>
+                  <td>{{ ca.customerName }}</td>
+                  <td>{{ ca.customerAddress }}</td>
+                  <td>{{ ca.customerPhoneNumber }}</td>
+                  <td>
+                    <button
+                      (click)="openModal(ca, 'edit')"
+                      class="btn btn-square btn-primary btn-sm"
+                    >
+                      Update
+                    </button>
+                    <button
+                      (click)="remove(ca.id)"
+                      class="btn btn-square btn-danger btn-sm"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

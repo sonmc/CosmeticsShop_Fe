@@ -22,6 +22,7 @@ import { LoginComponent } from "./views/login/login.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { ToastrModule } from "ngx-toastr";
+import { CustomerComponent } from './views/customer/customer.component';
 
 @NgModule({
   imports: [

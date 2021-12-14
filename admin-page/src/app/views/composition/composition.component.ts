@@ -1,4 +1,5 @@
-import { CategoryService } from "./../../containers/services/category.service";
+import { CompositionService } from "./../../containers/services/composition.service";
+
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Router } from "@angular/router";
 import { SUCCESS_STATUS } from "./../../containers/constants/config";
@@ -6,30 +7,32 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
-  selector: "app-category",
-  templateUrl: "./category.component.html",
+  selector: "app-composition",
+  templateUrl: "./composition.component.html",
 })
-export class CategoryComponent implements OnInit {
+export class CompositionComponent implements OnInit {
   @ViewChild("modalCreate") modalCreate: ModalDirective;
-  categories: any;
+  compositions: any;
   type: string;
-  category: Object = {
+  composition: Object = {
     name: "",
-    description: "",
+    part: "",
+    uses: "",
+    levelOfIrritation: "",
   };
 
   constructor(
-    public categoryService: CategoryService,
+    public compositionService: CompositionService,
     public router: Router,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.categoryService.get().subscribe(
+    this.compositionService.get().subscribe(
       (res) => {
         this.toastr.success("Success", "");
         if (SUCCESS_STATUS == res["status"]) {
-          this.categories = res["data"].filter((x) => x.id != 9999);
+          this.compositions = res["data"];
         }
       },
       (err) => {
@@ -39,17 +42,17 @@ export class CategoryComponent implements OnInit {
   }
 
   save = () => {
-    this.categoryService
-      .save(this.category, this.type)
+    this.compositionService
+      .save(this.composition, this.type)
       .then((res) => {
         if (res["status"] == SUCCESS_STATUS) {
           this.toastr.success("Success", "");
-          if (this.type === "create") {
-            this.categories.push(res["data"]);
+          if (this.type === "add") {
+            this.compositions.push(res["data"]);
           } else {
-            for (let index = 0; index < this.categories.length; index++) {
-              if (this.categories[index].id == res["data"].id) {
-                this.categories[index] = res["data"];
+            for (let index = 0; index < this.compositions.length; index++) {
+              if (this.compositions[index].id == res["data"].id) {
+                this.compositions[index] = res["data"];
               }
             }
           }
@@ -62,23 +65,23 @@ export class CategoryComponent implements OnInit {
   };
 
   remove = (id) => {
-    this.categoryService.remove(id).then((res) => {
+    this.compositionService.remove(id).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
         this.toastr.success("Success", "");
-        for (let index = 0; index < this.categories.length; index++) {
-          if (this.categories[index].id == id) {
-            this.categories.splice(index, 1);
+        for (let index = 0; index < this.compositions.length; index++) {
+          if (this.compositions[index].id == id) {
+            this.compositions.splice(index, 1);
           }
         }
       }
     });
   };
 
-  openModal = (category, type) => {
+  openModal = (composition, type) => {
     this.type = type;
-    this.category =
+    this.composition =
       type === "edit"
-        ? { ...category }
+        ? { ...composition }
         : {
             name: "",
             description: "",

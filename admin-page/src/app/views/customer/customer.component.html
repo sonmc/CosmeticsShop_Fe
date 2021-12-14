@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <div class="card-header"><b>Categories</b></div>
+        <div class="card-header"><b>Customers</b></div>
         <span style="margin-left: 20px; font-style: italic; margin-top: 20px">
           <a (click)="openModal('', 'create')" href="javascript:;"
             >Create new</a
@@ -14,14 +14,16 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Description</th>
+                  <th>Phone number</th>
+                  <th>Email</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let ca of categories">
+                <tr *ngFor="let ca of customers">
                   <td>{{ ca.name }}</td>
-                  <td>{{ ca.description }}</td>
+                  <td>{{ ca.phoneNumber }}</td>
+                  <td>{{ ca.email }}</td>
                   <td>
                     <button
                       (click)="openModal(ca, 'edit')"
@@ -56,8 +58,10 @@
 >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header"> 
-        <h4 class="modal-title">{{type==='create'? 'Create new': 'Update'}}</h4>
+      <div class="modal-header">
+        <h4 class="modal-title">
+          {{ type === "create" ? "Create new" : "Update" }}
+        </h4>
         <button
           type="button"
           class="close"
@@ -73,16 +77,25 @@
             <input
               type="text"
               name="name"
-              [(ngModel)]="category.name"
+              [(ngModel)]="customer.name"
               class="form-control"
-              placeholder="Category Name"
+              placeholder="Customer Name"
             />
           </div>
           <div class="form-group">
             <input
               class="form-control"
               type="text"
-              [(ngModel)]="category.description"
+              [(ngModel)]="customer.phoneNumber"
+              name="description"
+              placeholder="Description"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="customer.email"
               name="description"
               placeholder="Description"
             />

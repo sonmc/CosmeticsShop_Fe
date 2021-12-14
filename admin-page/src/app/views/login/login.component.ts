@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { UserService } from "../../containers/services/user/user.service";
+import { UserService } from "../../containers/services/user.service";
 import { AuthService } from "../../containers/services/auth/auth.service";
 import { Router } from "@angular/router";
 import { SUCCESS_STATUS } from "../../containers/constants/config";
@@ -45,7 +45,7 @@ export class LoginComponent {
               username: user.username,
               token: user.token
             });
-            this.router.navigate(["/user"]);
+            this.router.navigate(["/customer"]);
           } else {
             this.messageError = res["message"];
           }
