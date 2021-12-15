@@ -10,13 +10,15 @@ import { ToastrService } from "ngx-toastr";
   templateUrl: "./cart.component.html",
 })
 export class CartComponent implements OnInit {
-  @ViewChild("modalCreate") modalCreate: ModalDirective;
+  @ViewChild("modalDetail") modalDetail: ModalDirective;
   carts: any;
   type: string;
   cart: Object = {
     name: "",
     description: "",
   };
+
+  orderDetails: any = [];
 
   constructor(
     public cartService: CartService,
@@ -37,7 +39,7 @@ export class CartComponent implements OnInit {
       }
     );
   }
- 
+
   remove = (id) => {
     this.cartService.remove(id).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
@@ -51,15 +53,12 @@ export class CartComponent implements OnInit {
     });
   };
 
-  openModal = (cart, type) => {
-    this.type = type;
-    this.cart =
-      type === "edit"
-        ? { ...cart }
-        : {
-            name: "",
-            description: "",
-          };
-    this.modalCreate.show();
+  openCartDetail = (cartId) => {
+    this.cartService.getCartDetail(cartId).then((res) => {
+      if (res["status"] == SUCCESS_STATUS) {
+        this.orderDetails = res["data"];
+        this.modalDetail.show();
+      }
+    });
   };
 }

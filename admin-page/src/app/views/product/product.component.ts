@@ -1,8 +1,10 @@
+import { CommonService } from "./../../containers/services/common.service";
+import { element } from "protractor";
 import { CategoryService } from "./../../containers/services/category.service";
 import { ProductService } from "./../../containers/services/product.service";
 
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { SUCCESS_STATUS } from "./../../containers/constants/config";
+import { API_URL, SUCCESS_STATUS } from "./../../containers/constants/config";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 
@@ -12,28 +14,36 @@ import { ToastrService } from "ngx-toastr";
 })
 export class ProductComponent implements OnInit {
   @ViewChild("modalCreate") modalCreate: ModalDirective;
+  uploadStatus: string = "";
   products: any;
-  categories: any = [];
+  categories: any = [
+    {
+      id: 0,
+      name: "Select a category",
+    },
+  ];
   type: string;
   product: Object = {
     images: "",
-    name: "",
+    nameProduct: "",
+    isDisabled: false,
     listedPrice: "",
     description: "",
-    categoryId: "",
+    categoryId: 0,
   };
 
   constructor(
     private categoryService: CategoryService,
     private productService: ProductService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
     this.productService.get().subscribe(
       (res) => {
-        this.toastr.success("Success", "");
         if (SUCCESS_STATUS == res["status"]) {
+          this.toastr.success("Success", "");
           this.products = res["data"].filter((x) => x.id != 9999);
         }
       },
@@ -49,7 +59,14 @@ export class ProductComponent implements OnInit {
       (res) => {
         this.toastr.success("Success", "");
         if (SUCCESS_STATUS == res["status"]) {
-          this.categories = res["data"].filter((x) => x.id != 9999);
+          if (res["data"].length > 0) {
+            res["data"].forEach((element) => {
+              if (element.id != "9999") {
+                this.categories.push(element);
+              }
+            });
+          }
+          this.product["categoryId"] = this.categories[0];
         }
       },
       (err) => {
@@ -57,35 +74,54 @@ export class ProductComponent implements OnInit {
       }
     );
   };
+  getCategoryName = (caId) => {
+    let categoryName = "";
+    this.categories.forEach((element) => {
+      if (element.id == caId) {
+        categoryName = element.name;
+      }
+    });
+    return categoryName;
+  };
   save = () => {
-    this.productService
-      .save(this.product, this.type)
-      .then((res) => {
-        if (res["status"] == SUCCESS_STATUS) {
-          this.toastr.success("Success", "");
-          if (this.type === "create") {
-            this.products.push(res["data"]);
-          } else {
-            for (let index = 0; index < this.products.length; index++) {
-              if (this.products[index].id == res["data"].id) {
-                this.products[index] = res["data"];
+    if (this.product["categoryId"] == 0) {
+      this.toastr.error("Please select a category!", "Error");
+    } else {
+      this.product["categoryId"] = parseInt(this.product["categoryId"]);
+      this.productService
+        .save(this.product, this.type)
+        .then((res) => {
+          if (res["status"] == SUCCESS_STATUS) {
+            this.toastr.success("Success", "");
+            if (this.type === "add") {
+              var pro = {
+                ...res["data"],
+                nameCategory: this.getCategoryName(res["data"].categoryId),
+              };
+              this.products.push(pro);
+            } else {
+              for (let index = 0; index < this.products.length; index++) {
+                if (this.products[index].id == res["data"].id) {
+                  this.products[index] = res["data"];
+                }
               }
             }
           }
-        }
-      })
-      .catch((e) => {
-        window.alert("Connection Error !");
-      });
-    this.modalCreate.hide();
+        })
+        .catch((e) => {
+          window.alert("Connection Error !");
+        });
+      this.modalCreate.hide();
+    }
   };
 
-  remove = (id) => {
-    this.productService.remove(id).then((res) => {
+  remove = (product) => {
+    product.isDisabled = true;
+    this.productService.remove(product).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
         this.toastr.success("Success", "");
         for (let index = 0; index < this.products.length; index++) {
-          if (this.products[index].id == id) {
+          if (this.products[index].id == product.id) {
             this.products.splice(index, 1);
           }
         }
@@ -99,9 +135,27 @@ export class ProductComponent implements OnInit {
       type === "edit"
         ? { ...product }
         : {
-            name: "",
+            categoryId: 0,
+            nameCategory: "",
+            listedPrice: 0,
             description: "",
           };
     this.modalCreate.show();
+  };
+
+  uploadFile = (event: Event) => {
+    const element = event.currentTarget as HTMLInputElement;
+    let file = element.files![0];
+    if (file) {
+      this.commonService
+        .upload(file)
+        .then((res: any) => {
+          this.uploadStatus = res.message;
+          this.product["images"] = "https://localhost:4000/" + res.data;
+        })
+        .catch((e) => {
+          window.alert("Connection Error !");
+        });
+    }
   };
 }

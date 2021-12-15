@@ -13,6 +13,20 @@ export class CartService {
     return this.apiService.getWithToken(url);
   };
 
+  getCartDetail = (cartId): Promise<Object> => {
+    return new Promise((resolve, reject) => {
+      let url = `${API_URL}orderDetail/get-order-details?orderId=${cartId}`;
+      this.apiService.getWithToken(url).subscribe(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
+  };
+
   save = (cart, type): Promise<Object> => {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}orders/${type}`;

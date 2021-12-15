@@ -11,7 +11,7 @@ export class ProductService {
 
   
   get = () => {
-    let url = `${API_URL}products/get`;
+    let url = `${API_URL}products/get-all`;
     return this.apiService.getWithToken(url);
   }
   
@@ -26,10 +26,10 @@ export class ProductService {
     })
   }
  
-  remove = (id): Promise<Object> => {
+  remove = (product): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}products/delete?id=${id}`;
-      this.apiService.getWithToken(url).subscribe(res => {
+      let url = `${API_URL}products/edit`;
+      this.apiService.postWithToken(url, product).subscribe(res => {
         resolve(res);
       }, err => {
         reject(err);

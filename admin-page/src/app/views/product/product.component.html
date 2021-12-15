@@ -23,20 +23,26 @@
               </thead>
               <tbody>
                 <tr *ngFor="let u of products">
-                  <td><img src="product.image" /></td>
-                  <td>{{ product.name }}</td>
-                  <td>{{ product.listedPrice }}</td>
-                  <td>{{ product.categoryName }}</td>
-                  <td>{{ product.description }}</td>
+                  <td style="height: 100px; width: 100px">
+                    <img
+                      *ngIf="u.images"
+                      style="width: 100%; height: 100%"
+                      [src]="u.images"
+                    />
+                  </td>
+                  <td>{{ u.nameProduct }}</td>
+                  <td>{{ u.listedPrice }}</td>
+                  <td>{{ u.nameCategory }}</td>
+                  <td>{{ u.description }}</td>
                   <td>
                     <button
-                      (click)="openModal(product, 'edit')"
+                      (click)="openModal(u, 'edit')"
                       class="btn btn-square btn-primary btn-sm"
                     >
                       Update
                     </button>
                     <button
-                      (click)="remove(product.id)"
+                      (click)="remove(u)"
                       class="btn btn-square btn-danger btn-sm"
                     >
                       delete
@@ -81,7 +87,7 @@
             <input
               type="text"
               name="name"
-              [(ngModel)]="product.name"
+              [(ngModel)]="product.nameProduct"
               class="form-control"
               placeholder="Product Name"
             />
@@ -89,7 +95,7 @@
           <div class="form-group">
             <input
               class="form-control"
-              type="text"
+              type="number"
               [(ngModel)]="product.listedPrice"
               name="listedPrice"
               placeholder="Listed Price"
@@ -105,9 +111,48 @@
             />
           </div>
           <div class="form-group">
-            <select class="form-control">
-              <option *ngFor="let ca of categories">{{ ca.name }}</option>
+            <select
+              class="form-control"
+              name="categoryId"
+              [(ngModel)]="product.categoryId"
+            >
+              <option
+                [value]="ca.id"
+                *ngFor="let ca of categories"
+                [selected]="ca.id == product.categoryId"
+              >
+                {{ ca.name }}
+              </option>
             </select>
+          </div>
+          <div class="form-group">
+            <div
+              class="product-image"
+              style="width: 100px; height: 100px; border: 1px solid #5c6873"
+            >
+              <img
+                [src]="product.images"
+                style="width: 100%; height: 100%"
+                alt="Product image"
+                *ngIf="product.images"
+              />
+            </div>
+            <input
+              type="file"
+              #file
+              placeholder="Choose file"
+              (change)="uploadFile($event)"
+              style="display: none"
+            />
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="file.click()"
+              style="margin-top: 5px"
+            >
+              + Image
+            </button>
+            <span style="color: green">{{ uploadStatus }}</span>
           </div>
         </form>
       </div>
