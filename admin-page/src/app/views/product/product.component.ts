@@ -140,6 +140,7 @@ export class ProductComponent implements OnInit {
             listedPrice: 0,
             description: "",
           };
+    this.uploadStatus = "";
     this.modalCreate.show();
   };
 

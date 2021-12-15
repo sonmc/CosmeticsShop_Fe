@@ -1,3 +1,4 @@
+import { CommonService } from "./../../containers/services/common.service";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { BlogService } from "../../containers/services/blog.service";
 import { Router } from "@angular/router";
@@ -11,6 +12,7 @@ import { ToastrService } from "ngx-toastr";
 })
 export class BlogComponent implements OnInit {
   @ViewChild("modalCreate") modalCreate: ModalDirective;
+  uploadStatus: string = "";
   blogs: any;
   type: string;
   blog: Object = {
@@ -18,13 +20,15 @@ export class BlogComponent implements OnInit {
     status: true,
     createdDate: "",
     userId: 0,
-    Comments: [],
+    comments: [],
+    image: "",
   };
 
   constructor(
     public blogService: BlogService,
     public router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -73,6 +77,7 @@ export class BlogComponent implements OnInit {
             content: "",
             status: true,
           };
+    this.uploadStatus = "";
     this.modalCreate.show();
   };
 
@@ -92,5 +97,21 @@ export class BlogComponent implements OnInit {
       .catch((e) => {
         window.alert("Connection Error !");
       });
+  };
+
+  uploadFile = (event: Event) => {
+    const element = event.currentTarget as HTMLInputElement;
+    let file = element.files![0];
+    if (file) {
+      this.commonService
+        .upload(file)
+        .then((res: any) => {
+          this.uploadStatus = res.message;
+          this.blog["image"] = "https://localhost:4000/" + res.data;
+        })
+        .catch((e) => {
+          window.alert("Connection Error !");
+        });
+    }
   };
 }
