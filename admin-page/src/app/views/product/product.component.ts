@@ -156,7 +156,7 @@ export class ProductComponent implements OnInit {
         .upload(file)
         .then((res: any) => {
           this.uploadStatus = res.message;
-          this.product["images"] = "https://localhost:4000/" + res.data;
+          this.product["images"] = "http://localhost:4000/" + res.data;
         })
         .catch((e) => {
           window.alert("Connection Error !");

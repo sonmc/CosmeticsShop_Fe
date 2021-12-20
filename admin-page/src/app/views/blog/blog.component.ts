@@ -107,7 +107,7 @@ export class BlogComponent implements OnInit {
         .upload(file)
         .then((res: any) => {
           this.uploadStatus = res.message;
-          this.blog["image"] = "https://localhost:4000/" + res.data;
+          this.blog["image"] = "http://localhost:4000/" + res.data;
         })
         .catch((e) => {
           window.alert("Connection Error !");
