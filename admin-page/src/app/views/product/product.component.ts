@@ -142,6 +142,10 @@ export class ProductComponent implements OnInit {
           };
     this.uploadStatus = "";
     this.modalCreate.show();
+    if (this.categories.length < 2) {
+      this.toastr.warning("Please create a category first.", "Warning!");
+      this.modalCreate.show();
+    }
   };
 
   uploadFile = (event: Event) => {

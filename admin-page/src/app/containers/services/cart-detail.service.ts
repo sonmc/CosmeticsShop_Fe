@@ -5,17 +5,12 @@ import { API_URL } from "../constants/config";
 @Injectable({
   providedIn: "root",
 })
-export class BlogService {
+export class CartDetailService {
   constructor(public apiService: ApiService) {}
 
-  get = () => {
-    let url = `${API_URL}blogs/get`;
-    return this.apiService.getWithToken(url);
-  };
-
-  getBlogDetail = (blogId): Promise<Object> => {
+  getCartDetail = (cartId): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}blogs/getById?blogId=${blogId}`;
+      let url = `${API_URL}orderDetails/get-order-details?orderId=${cartId}`;
       this.apiService.getWithToken(url).subscribe(
         (res) => {
           resolve(res);
@@ -27,10 +22,10 @@ export class BlogService {
     });
   };
 
-  save = (blog, type): Promise<Object> => {
+  save = (cartDetail, type): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}blogs/${type}`;
-      this.apiService.postWithToken(url, blog).subscribe(
+      let url = `${API_URL}orderDetails/${type}`;
+      this.apiService.postWithToken(url, cartDetail).subscribe(
         (res) => {
           resolve(res);
         },
@@ -43,7 +38,7 @@ export class BlogService {
 
   remove = (id): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}blogs/delete?id=${id}`;
+      let url = `${API_URL}orderDetails/delete?id=${id}`;
       this.apiService.getWithToken(url).subscribe(
         (res) => {
           resolve(res);

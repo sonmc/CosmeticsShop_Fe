@@ -38,16 +38,22 @@
                   <td>{{ blog.author }}</td>
                   <td>
                     <button
-                      (click)="openModal(blog, 'edit')"
+                      (click)="blogDetail(blog.id)"
                       class="btn btn-square btn-primary btn-sm"
                     >
-                      Update
+                      Chi tiết
+                    </button>
+                    <button
+                      (click)="openModal(blog, 'edit')"
+                      class="btn btn-square btn-success btn-sm"
+                    >
+                      Chỉnh sửa
                     </button>
                     <button
                       (click)="remove(blog.id)"
                       class="btn btn-square btn-danger btn-sm"
                     >
-                      Delete
+                      Xóa
                     </button>
                   </td>
                 </tr>

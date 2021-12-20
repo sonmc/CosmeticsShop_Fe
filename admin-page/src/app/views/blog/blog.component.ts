@@ -114,4 +114,8 @@ export class BlogComponent implements OnInit {
         });
     }
   };
+
+  blogDetail = (blogId) => { 
+    this.router.navigate(["/blog-detail", blogId]);
+  };
 }

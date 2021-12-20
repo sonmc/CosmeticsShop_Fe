@@ -1,3 +1,4 @@
+import { AdminGuard } from "./containers/guards/admin.guard";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
@@ -28,11 +29,29 @@ export const routes: Routes = [
         path: "blog",
         loadChildren: () =>
           import("./views/blog/blog.module").then((m) => m.BlogModule),
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "blog-detail/:blogId",
+        loadChildren: () =>
+          import("./views/blog-detail/blog-detail.module").then(
+            (m) => m.BlogDetailModule
+          ),
+        canActivate: [AdminGuard],
       },
       {
         path: "cart",
         loadChildren: () =>
           import("./views/cart/cart.module").then((m) => m.CartModule),
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "cart-detail/:cartId",
+        loadChildren: () =>
+          import("./views/cart-detail/cart-detail.module").then(
+            (m) => m.CartDetailModule
+          ),
+        canActivate: [AdminGuard],
       },
       {
         path: "category",
@@ -40,11 +59,13 @@ export const routes: Routes = [
           import("./views/category/category.module").then(
             (m) => m.CategoryModule
           ),
+        canActivate: [AdminGuard],
       },
       {
         path: "product",
         loadChildren: () =>
           import("./views/product/product.module").then((m) => m.ProductModule),
+        canActivate: [AdminGuard],
       },
       {
         path: "customer",
@@ -52,6 +73,7 @@ export const routes: Routes = [
           import("./views/customer/customer.module").then(
             (m) => m.CustomerModule
           ),
+        canActivate: [AdminGuard],
       },
       {
         path: "composition",
@@ -59,6 +81,7 @@ export const routes: Routes = [
           import("./views/composition/composition.module").then(
             (m) => m.CompositionModule
           ),
+        canActivate: [AdminGuard],
       },
     ],
   },

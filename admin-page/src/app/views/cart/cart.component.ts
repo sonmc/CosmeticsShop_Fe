@@ -10,15 +10,42 @@ import { ToastrService } from "ngx-toastr";
   templateUrl: "./cart.component.html",
 })
 export class CartComponent implements OnInit {
-  @ViewChild("modalDetail") modalDetail: ModalDirective;
-  carts: any;
-  type: string;
-  cart: Object = {
-    name: "",
-    description: "",
-  };
+  @ViewChild("modalUpdate") modalUpdate: ModalDirective;
 
-  orderDetails: any = [];
+  carts: any;
+  cart: Object = {
+    customerAddress: "",
+    customerName: "",
+    customerPhoneNumber: "",
+    orderCode: "",
+    status: "",
+  };
+  statuses = [
+    {
+      key: 0,
+      value: "Giao không thành công",
+    },
+    {
+      key: 1,
+      value: "Đặt hàng",
+    },
+    {
+      key: 2,
+      value: "Đã thanh toán",
+    },
+    {
+      key: 3,
+      value: "Đang chuẩn bị hàng",
+    },
+    {
+      key: 4,
+      value: "Đang giao hàng",
+    },
+    {
+      key: 5,
+      value: "Giao thành công",
+    },
+  ];
 
   constructor(
     public cartService: CartService,
@@ -29,9 +56,12 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.cartService.get().subscribe(
       (res) => {
-        this.toastr.success("Success", "");
         if (SUCCESS_STATUS == res["status"]) {
           this.carts = res["data"].filter((x) => x.id != 9999);
+          this.carts = this.carts.map((item) => {
+            item.statusName = this.getStatus(item.status);
+            return item;
+          });
         }
       },
       (err) => {
@@ -39,6 +69,10 @@ export class CartComponent implements OnInit {
       }
     );
   }
+
+  getStatus = (statusKey) => {
+    return this.statuses.find((x) => x.key == statusKey).value;
+  };
 
   remove = (id) => {
     this.cartService.remove(id).then((res) => {
@@ -53,12 +87,27 @@ export class CartComponent implements OnInit {
     });
   };
 
-  openCartDetail = (cartId) => {
-    this.cartService.getCartDetail(cartId).then((res) => {
+  updateCart = () => {
+    this.cartService.edit(this.cart).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
-        this.orderDetails = res["data"];
-        this.modalDetail.show();
+        this.toastr.success("Success", "");
+        for (let index = 0; index < this.carts.length; index++) {
+          if (this.carts[index].id == this.cart["id"]) {
+            this.cart["statusName"] = this.getStatus(this.cart["status"]);
+            this.carts[index] = this.cart;
+          }
+        }
+        this.modalUpdate.hide();
       }
     });
+  };
+
+  openCartDetail = (cartId) => {
+    this.router.navigate(["/cart-detail", cartId]);
+  };
+
+  openModalUpdate = (cart) => {
+    this.cart = { ...cart };
+    this.modalUpdate.show();
   };
 }

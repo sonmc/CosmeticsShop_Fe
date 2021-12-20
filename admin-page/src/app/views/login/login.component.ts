@@ -42,8 +42,9 @@ export class LoginComponent {
           if (res["status"] == SUCCESS_STATUS) {
             let user = res["data"];
             this.authService.saveLocal({
+              id: user.id,
               username: user.username,
-              token: user.token
+              token: user.token,
             });
             this.router.navigate(["/customer"]);
           } else {

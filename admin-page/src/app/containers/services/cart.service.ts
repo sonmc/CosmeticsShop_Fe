@@ -11,25 +11,11 @@ export class CartService {
   get = () => {
     let url = `${API_URL}orders/get-orders`;
     return this.apiService.getWithToken(url);
-  };
-
-  getCartDetail = (cartId): Promise<Object> => {
+  }; 
+  
+  edit = (cart): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}orderDetail/get-order-details?orderId=${cartId}`;
-      this.apiService.getWithToken(url).subscribe(
-        (res) => {
-          resolve(res);
-        },
-        (err) => {
-          reject(err);
-        }
-      );
-    });
-  };
-
-  save = (cart, type): Promise<Object> => {
-    return new Promise((resolve, reject) => {
-      let url = `${API_URL}orders/${type}`;
+      let url = `${API_URL}orders/edit`;
       this.apiService.postWithToken(url, cart).subscribe(
         (res) => {
           resolve(res);

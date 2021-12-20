@@ -1,0 +1,125 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header"><b>Chi tiết đơn hàng</b></div>
+        <span style="margin-left: 20px; font-style: italic; margin-top: 20px">
+          <a (click)="openModal('', 'create')" href="javascript:;"
+            >Create new</a
+          >
+        </span>
+        <div class="search-table-outter wrapper">
+          <div class="card-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let od of orderDetails">
+                  <td>{{ od.product.nameProduct }}</td>
+                  <td>{{ od.quantity }}</td>
+                  <td>{{ od.product.listedPrice }}</td>
+                  <td>
+                    <button
+                      (click)="openModal(od, 'edit')"
+                      class="btn btn-square btn-primary btn-sm"
+                    >
+                      Update
+                    </button>
+                    <button
+                      (click)="remove(od.id)"
+                      class="btn btn-square btn-danger btn-sm"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #modalCreate="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          {{ type == "edit" ? "Chỉnh sửa đơn hàng" : "Thêm mới" }}
+        </h4>
+        <button
+          type="button"
+          class="close"
+          (click)="modalCreate.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input
+              type="text"
+              name="productName"
+              [(ngModel)]="orderDetail.productName"
+              class="form-control"
+              placeholder="Tên sản phẩm"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="number"
+              name="quantity"
+              [(ngModel)]="orderDetail.quantity"
+              class="form-control"
+              placeholder="Số lượng"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              class="form-control"
+              type="number"
+              readonly
+              [(ngModel)]="orderDetail.price"
+              name="price"
+              placeholder="Đơn giá"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-square btn-secondary"
+          (click)="modalCreate.hide()"
+        >
+          Đóng
+        </button>
+        <button
+          type="button"
+          class="btn btn-square btn-primary"
+          (click)="save()"
+        >
+          Chỉnh sửa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
