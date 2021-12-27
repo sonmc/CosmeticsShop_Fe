@@ -7,20 +7,18 @@ import { navItems } from "../../_nav";
   templateUrl: "./layout.component.html",
   styleUrls: ["./layout.component.css"],
 })
-export class LayoutComponent  implements OnInit {
-
-
-
+export class LayoutComponent implements OnInit {
   public sidebarMinimized = false;
   public navItems = navItems;
   currentUser: any = {};
   constructor(private authService: AuthService) {}
-  
+
   toggleMinimize(e) {
     this.sidebarMinimized = e;
   }
 
   ngOnInit(): void {
     this.currentUser = this.authService.getLocal();
+    console.log(this.currentUser);
   }
 }

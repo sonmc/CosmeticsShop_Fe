@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <div class="card-header"><b>Products</b></div>
+        <div class="card-header"><b>Sản phẩm</b></div>
         <span style="margin-left: 20px; font-style: italic; margin-top: 20px"
           ><a (click)="openModal('', 'add')" href="javascript:;"
-            >Create new</a
+            >Thêm mới</a
           ></span
         >
         <div class="search-table-outter wrapper">
@@ -13,11 +13,11 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Category Name</th>
-                  <th>Description</th>
+                  <th>Ảnh</th>
+                  <th>Tên</th>
+                  <th>Giá</th>
+                  <th>Danh mục</th>
+                  <th>Mô tả</th>
                   <th></th>
                 </tr>
               </thead>
@@ -39,13 +39,13 @@
                       (click)="openModal(u, 'edit')"
                       class="btn btn-square btn-primary btn-sm"
                     >
-                      Update
+                      Chỉnh sửa
                     </button>
                     <button
                       (click)="remove(u)"
                       class="btn btn-square btn-danger btn-sm"
                     >
-                      delete
+                      Xóa
                     </button>
                   </td>
                 </tr>
@@ -70,7 +70,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">
-          {{ type === "add" ? "Create new" : "Update" }}
+          {{ type === "add" ? "Thêm mới" : "Chỉnh sửa" }}
         </h4>
         <button
           type="button"
@@ -89,7 +89,7 @@
               name="name"
               [(ngModel)]="product.nameProduct"
               class="form-control"
-              placeholder="Product Name"
+              placeholder="Tên sản phẩm"
             />
           </div>
           <div class="form-group">
@@ -98,7 +98,7 @@
               type="number"
               [(ngModel)]="product.listedPrice"
               name="listedPrice"
-              placeholder="Listed Price"
+              placeholder="Giá"
             />
           </div>
           <div class="form-group">
@@ -107,7 +107,7 @@
               type="text"
               [(ngModel)]="product.description"
               name="description"
-              placeholder="Description"
+              placeholder="Mô tả"
             />
           </div>
           <div class="form-group">
@@ -150,7 +150,7 @@
               (click)="file.click()"
               style="margin-top: 5px"
             >
-              + Image
+              + Chọn ảnh
             </button>
             <span style="color: green">{{ uploadStatus }}</span>
           </div>
@@ -162,14 +162,14 @@
           class="btn btn-square btn-secondary"
           (click)="modalCreate.hide()"
         >
-          Close
+          Đóng
         </button>
         <button
           type="button"
           class="btn btn-square btn-primary"
           (click)="save()"
         >
-          Create
+          Lưu lại
         </button>
       </div>
     </div>

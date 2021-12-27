@@ -43,7 +43,7 @@ export class LoginComponent {
             let user = res["data"];
             this.authService.saveLocal({
               id: user.id,
-              username: user.username,
+              username: user.userName,
               token: user.token,
             });
             this.router.navigate(["/customer"]);

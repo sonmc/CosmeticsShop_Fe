@@ -19,7 +19,7 @@ export class ProductComponent implements OnInit {
   categories: any = [
     {
       id: 0,
-      name: "Select a category",
+      name: "-Chọn danh mục-",
     },
   ];
   type: string;

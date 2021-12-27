@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <div class="card-header"><b>Categories</b></div>
+        <div class="card-header"><b>Danh mục</b></div>
         <span style="margin-left: 20px; font-style: italic; margin-top: 20px">
           <a (click)="openModal('', 'create')" href="javascript:;"
-            >Create new</a
+            >Thêm mới</a
           >
         </span>
         <div class="search-table-outter wrapper">
@@ -13,8 +13,8 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Description</th>
+                  <th>Tên</th>
+                  <th>Mô tả</th>
                   <th></th>
                 </tr>
               </thead>
@@ -27,13 +27,13 @@
                       (click)="openModal(ca, 'edit')"
                       class="btn btn-square btn-primary btn-sm"
                     >
-                      Update
+                      Chỉnh sửa
                     </button>
                     <button
                       (click)="remove(ca.id)"
                       class="btn btn-square btn-danger btn-sm"
                     >
-                      Delete
+                      Xóa
                     </button>
                   </td>
                 </tr>
@@ -57,7 +57,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header"> 
-        <h4 class="modal-title">{{type==='create'? 'Create new': 'Update'}}</h4>
+        <h4 class="modal-title">{{type==='create'? 'Thêm mới': 'Chỉnh sửa'}}</h4>
         <button
           type="button"
           class="close"
@@ -75,7 +75,7 @@
               name="name"
               [(ngModel)]="category.name"
               class="form-control"
-              placeholder="Category Name"
+              placeholder="Tên danh mục"
             />
           </div>
           <div class="form-group">
@@ -84,7 +84,7 @@
               type="text"
               [(ngModel)]="category.description"
               name="description"
-              placeholder="Description"
+              placeholder="Mô tả"
             />
           </div>
         </form>
@@ -95,14 +95,14 @@
           class="btn btn-square btn-secondary"
           (click)="modalCreate.hide()"
         >
-          Close
+          Đóng
         </button>
         <button
           type="button"
           class="btn btn-square btn-primary"
           (click)="save()"
         >
-          Create
+          Lưu lại
         </button>
       </div>
     </div>

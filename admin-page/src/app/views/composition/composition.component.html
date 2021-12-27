@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <div class="card-header"><b>Compositions</b></div>
+        <div class="card-header"><b>Thành phần</b></div>
         <span style="margin-left: 20px; font-style: italic; margin-top: 20px">
           <a (click)="openModal('', 'add')" href="javascript:;"
-            >Create new</a
+            >Thêm mới</a
           >
         </span>
         <div class="search-table-outter wrapper">
@@ -13,10 +13,10 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Part</th>
-                  <th>Uses</th>
-                  <th>Level Of Irritation</th>
+                  <th>Tên</th>
+                  <th>Thành phần</th>
+                  <th>Chức năng</th>
+                  <th>Mức độ kích thích</th>
                   <th></th>
                 </tr>
               </thead>
@@ -31,13 +31,13 @@
                       (click)="openModal(ca, 'edit')"
                       class="btn btn-square btn-primary btn-sm"
                     >
-                      Update
+                      Chỉnh sửa
                     </button>
                     <button
                       (click)="remove(ca.id)"
                       class="btn btn-square btn-danger btn-sm"
                     >
-                      Delete
+                      Xóa
                     </button>
                   </td>
                 </tr>
@@ -62,7 +62,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">
-          {{ type === "add" ? "Create new" : "Update" }}
+          {{ type === "add" ? "Thêm mới" : "Chỉnh sửa" }}
         </h4>
         <button
           type="button"
@@ -81,7 +81,7 @@
               name="name"
               [(ngModel)]="composition.name"
               class="form-control"
-              placeholder="Composition Name"
+              placeholder="Tên thành phần"
             />
           </div>
           <div class="form-group">
@@ -99,7 +99,7 @@
               type="text"
               [(ngModel)]="composition.uses"
               name="uses"
-              placeholder="Uses"
+              placeholder="Chức năng"
             />
           </div>
           <div class="form-group">
@@ -108,7 +108,7 @@
               type="text"
               [(ngModel)]="composition.levelOfIrritation"
               name="levelOfIrritation"
-              placeholder="Level Of Irritation"
+              placeholder="Mức độ kích thích"
             />
           </div>
         </form>
@@ -119,14 +119,14 @@
           class="btn btn-square btn-secondary"
           (click)="modalCreate.hide()"
         >
-          Close
+          Đóng
         </button>
         <button
           type="button"
           class="btn btn-square btn-primary"
           (click)="save()"
         >
-          Create
+          Lưu lại
         </button>
       </div>
     </div>

@@ -2,22 +2,22 @@ import { INavData } from "@coreui/angular";
 
 export const navItems: INavData[] = [
   {
-    name: "Customer",
+    name: "Khách hàng",
     url: "/customer",
     icon: "icon-cursor",
   },
   {
-    name: "Product",
+    name: "Sản phẩm",
     url: "/product",
     icon: "icon-cursor",
   },
   {
-    name: "Cart",
+    name: "Giỏ hàng",
     url: "/cart",
     icon: "icon-cursor",
-  },  
+  },
   {
-    name: "Category",
+    name: "Danh mục",
     url: "/category",
     icon: "icon-cursor",
   },
@@ -27,8 +27,13 @@ export const navItems: INavData[] = [
     icon: "icon-cursor",
   },
   {
-    name: "Composition",
+    name: "Thành phần",
     url: "/composition",
+    icon: "icon-cursor",
+  },
+  {
+    name: "Thống kê",
+    url: "/statistical",
     icon: "icon-cursor",
   },
 ];

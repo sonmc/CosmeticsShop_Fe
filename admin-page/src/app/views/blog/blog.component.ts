@@ -2,7 +2,7 @@ import { CommonService } from "./../../containers/services/common.service";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { BlogService } from "../../containers/services/blog.service";
 import { Router } from "@angular/router";
-import { SUCCESS_STATUS } from "./../../containers/constants/config";
+import { SUCCESS_STATUS, URL_IMAGE } from "./../../containers/constants/config";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 
@@ -107,7 +107,7 @@ export class BlogComponent implements OnInit {
         .upload(file)
         .then((res: any) => {
           this.uploadStatus = res.message;
-          this.blog["image"] = "http://localhost:4000/" + res.data;
+          this.blog["image"] = URL_IMAGE + res.data;
         })
         .catch((e) => {
           window.alert("Connection Error !");
