@@ -27,8 +27,7 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerService.get().subscribe(
-      (res) => {
-        this.toastr.success("Success", "");
+      (res) => { 
         if (SUCCESS_STATUS == res["status"]) {
           this.customers = res["data"];
         }

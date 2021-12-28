@@ -21,8 +21,7 @@ import { LayoutComponent } from "./views/layout/layout.component";
 import { LoginComponent } from "./views/login/login.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { ToastrModule } from "ngx-toastr";
-
+import { ToastrModule } from "ngx-toastr"; 
 @NgModule({
   imports: [
     BrowserModule,

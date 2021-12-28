@@ -1,12 +1,12 @@
 import { CommonService } from "./../../containers/services/common.service";
-import { element } from "protractor";
-import { CategoryService } from "./../../containers/services/category.service";
 import { ProductService } from "./../../containers/services/product.service";
-
-import { ModalDirective } from "ngx-bootstrap/modal";
-import { API_URL, SUCCESS_STATUS } from "./../../containers/constants/config";
-import { Component, OnInit, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { BrandService } from "../../containers/services/brand.service";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { URL_IMAGE, SUCCESS_STATUS } from "./../../containers/constants/config";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { CategoryService } from "../../containers/services/category.service";
+import { CompositionService } from "../../containers/services/composition.service";
 
 @Component({
   selector: "app-product",
@@ -14,14 +14,11 @@ import { ToastrService } from "ngx-toastr";
 })
 export class ProductComponent implements OnInit {
   @ViewChild("modalCreate") modalCreate: ModalDirective;
+  categories: any = [];
+  compositions: any = [];
   uploadStatus: string = "";
   products: any;
-  categories: any = [
-    {
-      id: 0,
-      name: "-Chọn danh mục-",
-    },
-  ];
+  brands: any = [];
   type: string;
   product: Object = {
     images: "",
@@ -29,65 +26,84 @@ export class ProductComponent implements OnInit {
     isDisabled: false,
     listedPrice: "",
     description: "",
-    categoryId: 0,
+    brandId: 0,
+    compositions: [],
+    brandName: "",
+    totalItems: 0,
   };
 
   constructor(
-    private categoryService: CategoryService,
+    private brandService: BrandService,
     private productService: ProductService,
     private toastr: ToastrService,
-    private commonService: CommonService
+    private categoryService: CategoryService,
+    private commonService: CommonService,
+    private compositionService: CompositionService
   ) {}
 
   ngOnInit(): void {
-    this.productService.get().subscribe(
-      (res) => {
-        if (SUCCESS_STATUS == res["status"]) {
-          this.toastr.success("Success", "");
-          this.products = res["data"].filter((x) => x.id != 9999);
-        }
-      },
-      (err) => {
-        window.alert("Connection Error !");
-      }
-    );
-    this.getCategories();
+    this.getCategory();
+    this.getComposition();
   }
-
-  getCategories = () => {
-    this.categoryService.get().subscribe(
-      (res) => {
-        this.toastr.success("Success", "");
-        if (SUCCESS_STATUS == res["status"]) {
-          if (res["data"].length > 0) {
-            res["data"].forEach((element) => {
-              if (element.id != "9999") {
-                this.categories.push(element);
-              }
-            });
-          }
-          this.product["categoryId"] = this.categories[0];
-        }
-      },
-      (err) => {
-        window.alert("Connection Error !");
-      }
-    );
-  };
-  getCategoryName = (caId) => {
-    let categoryName = "";
-    this.categories.forEach((element) => {
-      if (element.id == caId) {
-        categoryName = element.name;
+  getComposition() {
+    this.compositionService.get().subscribe((res) => {
+      if (SUCCESS_STATUS == res["status"]) {
+        this.compositions = res["data"];
       }
     });
-    return categoryName;
+  }
+  getCategory() {
+    this.categoryService.get().subscribe((res) => {
+      if (SUCCESS_STATUS == res["status"]) {
+        this.categories = res["data"];
+        this.getBrands(res["data"][0].id);
+      }
+    });
+  }
+
+  getBrands = (categoryId) => {
+    this.brandService.getByCategoryId(categoryId).subscribe((res) => {
+      if (SUCCESS_STATUS == res["status"]) {
+        this.brands = res["data"];
+        this.product["brandId"] = this.brands[0].brandId;
+        this.getProducts(res["data"][0].brandId);
+      }
+    });
   };
+
+  getProducts(brandId) {
+    this.productService.getByBrand(brandId).subscribe((res) => {
+      if (SUCCESS_STATUS == res["status"]) {
+        this.products = res["data"];
+      }
+    });
+  }
+
+  addComposition = (composition) => {
+    this.product["compositions"].push(composition);
+  };
+  
+  changeBrand = (brandId) => {
+    let brandDetail = this.brands.find((x) => x.brandId == brandId);
+    this.product["brandName"] = brandDetail.name;
+    this.product["brandId"] = brandDetail.brandId;
+  };
+
+  getBrandName = (brandId) => {
+    let brandName = "";
+    this.brands.forEach((element) => {
+      if (element.brandId == brandId) {
+        brandName = element.name;
+      }
+    });
+    return brandName;
+  };
+
   save = () => {
-    if (this.product["categoryId"] == 0) {
-      this.toastr.error("Please select a category!", "Error");
+    if (this.product["brandId"] == 0) {
+      this.toastr.error("Please select a brand!", "Error");
     } else {
-      this.product["categoryId"] = parseInt(this.product["categoryId"]);
+      this.product["brandId"] = parseInt(this.product["brandId"]);
       this.productService
         .save(this.product, this.type)
         .then((res) => {
@@ -96,7 +112,7 @@ export class ProductComponent implements OnInit {
             if (this.type === "add") {
               var pro = {
                 ...res["data"],
-                nameCategory: this.getCategoryName(res["data"].categoryId),
+                brandName: this.getBrandName(res["data"].brandId),
               };
               this.products.push(pro);
             } else {
@@ -135,15 +151,15 @@ export class ProductComponent implements OnInit {
       type === "edit"
         ? { ...product }
         : {
-            categoryId: 0,
-            nameCategory: "",
+            brandId: 0,
+            brandName: "",
             listedPrice: 0,
             description: "",
           };
     this.uploadStatus = "";
     this.modalCreate.show();
-    if (this.categories.length < 2) {
-      this.toastr.warning("Please create a category first.", "Warning!");
+    if (this.brands.length < 1) {
+      this.toastr.warning("Please create a brand first.", "Warning!");
       this.modalCreate.show();
     }
   };
@@ -156,7 +172,7 @@ export class ProductComponent implements OnInit {
         .upload(file)
         .then((res: any) => {
           this.uploadStatus = res.message;
-          this.product["images"] = "http://localhost:4000/" + res.data;
+          this.product["images"] = URL_IMAGE + res.data;
         })
         .catch((e) => {
           window.alert("Connection Error !");

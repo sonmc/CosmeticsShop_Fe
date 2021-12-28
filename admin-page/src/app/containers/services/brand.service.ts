@@ -5,31 +5,18 @@ import { API_URL } from "../constants/config";
 @Injectable({
   providedIn: "root",
 })
-export class CartService {
+export class BrandService {
   constructor(public apiService: ApiService) {}
 
-  get = () => {
-    let url = `${API_URL}orders/get-orders`;
+  getByCategoryId = (categoryId) => {
+    let url = `${API_URL}brands/getByCategoryId?categoryId=${categoryId}`;
     return this.apiService.getWithToken(url);
   };
 
-  searchOrderByCode = (code): Promise<Object> => {
+  save = (brand, type): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}orders/searchOrderByCode?code=${code}`;
-      this.apiService.getWithToken(url).subscribe(
-        (res) => {
-          resolve(res);
-        },
-        (err) => {
-          reject(err);
-        }
-      );
-    });
-  };
-  edit = (cart): Promise<Object> => {
-    return new Promise((resolve, reject) => {
-      let url = `${API_URL}orders/edit`;
-      this.apiService.postWithToken(url, cart).subscribe(
+      let url = `${API_URL}brands/${type}`;
+      this.apiService.postWithToken(url, brand).subscribe(
         (res) => {
           resolve(res);
         },
@@ -42,7 +29,7 @@ export class CartService {
 
   remove = (id): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}orders/delete?id=${id}`;
+      let url = `${API_URL}brands/delete?id=${id}`;
       this.apiService.getWithToken(url).subscribe(
         (res) => {
           resolve(res);

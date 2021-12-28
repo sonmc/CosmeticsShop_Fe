@@ -29,8 +29,7 @@ export class CompositionComponent implements OnInit {
 
   ngOnInit(): void {
     this.compositionService.get().subscribe(
-      (res) => {
-        this.toastr.success("Success", "");
+      (res) => { 
         if (SUCCESS_STATUS == res["status"]) {
           this.compositions = res["data"];
         }

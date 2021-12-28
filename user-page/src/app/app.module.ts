@@ -7,13 +7,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { LayoutComponent } from './layout/layout.component';
+import { RegisterComponent } from './views/register/register.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     LayoutComponent,
-    AppComponent, 
+    AppComponent,
+    RegisterComponent, 
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

@@ -4,7 +4,7 @@ export const navItems: INavData[] = [
   {
     name: "Khách hàng",
     url: "/customer",
-    icon: "icon-cursor",
+    icon: "icon-user",
   },
   {
     name: "Sản phẩm",
@@ -14,26 +14,31 @@ export const navItems: INavData[] = [
   {
     name: "Giỏ hàng",
     url: "/cart",
-    icon: "icon-cursor",
+    icon: "icon-cart",
   },
   {
     name: "Danh mục",
     url: "/category",
-    icon: "icon-cursor",
+    icon: "icon",
+  },
+  {
+    name: "Nhãn hiệu",
+    url: "/brand",
+    icon: "icon",
   },
   {
     name: "Blog",
     url: "/blog",
-    icon: "icon-cursor",
+    icon: "icon",
   },
   {
     name: "Thành phần",
     url: "/composition",
-    icon: "icon-cursor",
+    icon: "icon",
   },
   {
     name: "Thống kê",
     url: "/statistical",
-    icon: "icon-cursor",
+    icon: "icon",
   },
 ];

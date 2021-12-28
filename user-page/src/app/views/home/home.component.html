@@ -63,7 +63,7 @@
                   alt=""
                 />
               </div>
-            </div> 
+            </div>
             <div class="item">
               <div class="col-sm-6">
                 <h1><span>E</span>-SHOPPER</h1>
@@ -118,45 +118,32 @@
       <div class="col-sm-3">
         <div class="left-sidebar">
           <h2>Danh mục sản phẩm</h2>
-          <div class="panel-group category-products" id="accordian">
-            <div class="panel panel-default" *ngFor="let ca of categories">
-              <div class="panel-heading">
+          <div class="panel-group category-products" id="categories">
+            <div
+              class="panel panel-default"
+              *ngFor="let ca of categories; let i = index"
+            >
+              <div class="panel-heading" [ngClass]="ca.active">
                 <h4 class="panel-title">
-                  <a href="#">{{ ca.name }}</a>
+                  <a href="javascript:;" (click)="getBrand(ca.id, i)">{{
+                    ca.name
+                  }}</a>
                 </h4>
               </div>
             </div>
           </div>
-          <!--/category-products-->
 
           <div class="brands_products">
-            <!--brands_products-->
             <h2>Nhãn hiệu</h2>
             <div class="brands-name">
               <ul class="nav nav-pills nav-stacked">
-                <li>
-                  <a href="#"> <span class="pull-right">(50)</span>Acne</a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span class="pull-right">(56)</span>Grüne Erde</a
+                <li *ngFor="let brand of brands; let i = index">
+                  <a
+                    href="javascript:;"
+                    [ngClass]="brand.active"
+                    (click)="getProduct(brand.brandId, i)"
                   >
-                </li>
-                <li>
-                  <a href="#"> <span class="pull-right">(27)</span>Albiro</a>
-                </li>
-                <li>
-                  <a href="#"> <span class="pull-right">(32)</span>Ronhill</a>
-                </li>
-                <li>
-                  <a href="#"> <span class="pull-right">(5)</span>Oddmolly</a>
-                </li>
-                <li>
-                  <a href="#"> <span class="pull-right">(9)</span>Boudestijn</a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span class="pull-right">(4)</span>Rösch creative culture</a
+                    {{ brand.name }}</a
                   >
                 </li>
               </ul>
@@ -164,8 +151,7 @@
           </div>
           <!--/brands_products-->
 
-          <div class="price-range">
-            <!--price-range-->
+          <!--  <div class="price-range"> 
             <h2>Price Range</h2>
             <div class="well text-center">
               <input
@@ -180,7 +166,7 @@
               /><br />
               <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
             </div>
-          </div>
+          </div> -->
           <!--/price-range-->
 
           <div class="shipping text-center">
@@ -295,7 +281,7 @@
                     </div>
                   </div>
                 </div>
-              </div> 
+              </div>
             </div>
 
             <div class="tab-pane fade" id="kids">
@@ -312,7 +298,7 @@
                     </div>
                   </div>
                 </div>
-              </div> 
+              </div>
             </div>
 
             <div class="tab-pane fade" id="poloshirt">
@@ -329,12 +315,12 @@
                     </div>
                   </div>
                 </div>
-              </div> 
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="recommended_items"> 
+        <div class="recommended_items">
           <h2 class="title text-center">Sản phẩm đề xuất</h2>
 
           <div
@@ -357,7 +343,7 @@
                       </div>
                     </div>
                   </div>
-                </div> 
+                </div>
               </div>
               <div class="item">
                 <div class="col-sm-4">
@@ -373,7 +359,7 @@
                       </div>
                     </div>
                   </div>
-                </div> 
+                </div>
               </div>
             </div>
             <a

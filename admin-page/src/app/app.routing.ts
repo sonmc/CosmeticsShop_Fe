@@ -83,6 +83,20 @@ export const routes: Routes = [
           ),
         canActivate: [AdminGuard],
       },
+      {
+        path: "brand",
+        loadChildren: () =>
+          import("./views/brand/brand.module").then((m) => m.BrandModule),
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "statistical",
+        loadChildren: () =>
+          import("./views/statistical/statistical.module").then(
+            (m) => m.StatisticalModule
+          ),
+        canActivate: [AdminGuard],
+      },
     ],
   },
 ];

@@ -26,8 +26,7 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryService.get().subscribe(
-      (res) => {
-        this.toastr.success("Success", "");
+      (res) => { 
         if (SUCCESS_STATUS == res["status"]) {
           this.categories = res["data"].filter((x) => x.id != 9999);
         }

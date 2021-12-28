@@ -33,8 +33,7 @@ export class BlogComponent implements OnInit {
 
   ngOnInit(): void {
     this.blogService.get().subscribe(
-      (res) => {
-        this.toastr.success("Success", "");
+      (res) => { 
         if (SUCCESS_STATUS == res["status"]) {
           this.blogs = res["data"];
         }

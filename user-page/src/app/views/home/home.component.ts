@@ -1,8 +1,7 @@
 import { SUCCESS_STATUS } from './../../containers/constants/config';
-import { ProductService } from './../../containers/services/product.service';
-import { CategoryService } from './../../containers/services/category.service';
 
 import { Component, OnInit } from '@angular/core';
+import { HomeService } from 'src/app/containers/services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -11,43 +10,67 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   categories: any = [];
   products: any = [];
-  constructor(
-    private categoryService: CategoryService,
-    private productService: ProductService
-  ) {}
+  brands: any = [];
+
+  constructor(private homeService: HomeService) {}
 
   ngOnInit(): void {
     this.getCategory();
-    this.getProduct();
+    this.getProduct(1, 0);
+    this.getBrand(1, 0);
   }
 
-  getProduct = () => {
-    this.productService.get().subscribe(
-      (res: any) => {
-        if (SUCCESS_STATUS == res['status']) {
-          this.products = res['data'].filter((x: any) => x.id != 9999);
-          console.log(this.products);
-          
-        }
-      },
-      (err) => {
-        window.alert('Connection Error !');
+  getBrand = (categoryId: any, indexSelected: number) => {
+    this.homeService.getBrand(categoryId).subscribe((res: any) => {
+      if (SUCCESS_STATUS == res['status']) {
+        this.brands = res['data'].map((element: any, index: number) => {
+          if (index == 0) {
+            return { ...element, active: 'active' };
+          }
+          return { ...element, active: 'inactive' };
+        });
+        this.setActiveForCategory(indexSelected);
       }
-    );
+    });
+  };
+
+  getProduct = (brandId: any, indexSelected: number) => {
+    this.homeService.getProduct(brandId).subscribe((res: any) => {
+      if (SUCCESS_STATUS == res['status']) {
+        this.setActiveForBrand(indexSelected);
+        this.products = res['data'];
+      }
+    });
   };
 
   getCategory = () => {
-    this.categoryService.get().subscribe(
-      (res: any) => {
-        if (SUCCESS_STATUS == res['status']) {
-          this.categories = res['data'].filter((x: any) => x.id != 9999);
-          console.log(this.categories);
-          
-        }
-      },
-      (err: any) => {
-        window.alert('Connection Error !');
+    this.homeService.getCategory().subscribe((res: any) => {
+      if (SUCCESS_STATUS == res['status']) {
+        this.categories = res['data'].map((element: any, index: number) => {
+          if (index == 0) {
+            return { ...element, active: 'active' };
+          }
+          return { ...element, active: 'inactive' };
+        });
       }
-    );
+    });
   };
+
+  setActiveForBrand = (indexSelected: number) => {
+    this.brands = this.brands.map((element: any, index: number) => {
+      if (index == indexSelected) {
+        return { ...element, active: 'active' };
+      }
+      return { ...element, active: 'inactive' };
+    });
+  };
+
+  setActiveForCategory(indexSelected: number) {
+    this.categories = this.categories.map((element: any, index: number) => {
+      if (index == indexSelected) {
+        return { ...element, active: 'active' };
+      }
+      return { ...element, active: 'inactive' };
+    });
+  }
 }
