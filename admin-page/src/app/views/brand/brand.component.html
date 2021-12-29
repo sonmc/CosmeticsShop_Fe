@@ -13,6 +13,7 @@
                     class="form-control"
                     name="categoryList"
                     id="category"
+                    [(ngModel)]="categoryIdSelected"
                     (change)="getBrandByCategory($event.target.value)"
                   >
                     <option [value]="ca.id" *ngFor="let ca of categories">

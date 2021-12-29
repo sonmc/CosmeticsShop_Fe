@@ -748,12 +748,12 @@ h2.title:before {
   padding-bottom: 20px;
   padding-top: 15px;
 }
-.active {
+.activeList {
   background-color: #e7e7e7 !important;
 }
 .inactive {
-    background-color: #fff !important;
-  }
+  background-color: #fff !important;
+}
 .brands-name .nav-stacked li a {
   color: #696763;
   font-family: "Roboto", sans-serif;
@@ -1676,11 +1676,12 @@ h2.title {
   float: right;
 }
 
-.total_area ul li {
-  background: #e6e4df;
+.total_area form input {
   color: #696763;
   margin-top: 10px;
   padding: 7px 20px;
+  width: 300px;
+  margin-left: 35px;
 }
 
 .user_option label {

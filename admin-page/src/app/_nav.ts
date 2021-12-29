@@ -9,12 +9,12 @@ export const navItems: INavData[] = [
   {
     name: "Sản phẩm",
     url: "/product",
-    icon: "icon-cursor",
+    icon: "icon",
   },
   {
     name: "Giỏ hàng",
     url: "/cart",
-    icon: "icon-cart",
+    icon: "icon",
   },
   {
     name: "Danh mục",

@@ -18,7 +18,35 @@ export class HomeService {
   };
 
   getProduct = (brandId: any) => {
-    let url = `${API_URL}homes/products?id=${brandId}`;
+    let url = `${API_URL}homes/products?brandId=${brandId}`;
     return this.apiService.get(url);
+  };
+
+  createCustomer = (customer: any): Promise<Object> => {
+    return new Promise((resolve, reject) => {
+      let url = `${API_URL}homes/create-customer`;
+      this.apiService.postWithToken(url, customer).subscribe(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
+  };
+
+  createOrder = (cart: any): Promise<Object> => {
+    return new Promise((resolve, reject) => {
+      let url = `${API_URL}homes/create-order`;
+      this.apiService.postWithToken(url, cart).subscribe(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
   };
 }

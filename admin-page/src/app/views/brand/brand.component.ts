@@ -16,7 +16,7 @@ export class BrandComponent implements OnInit {
   brands: any = [];
   type: string;
   categories: any = [];
-
+  categoryIdSelected: any = 0;
   brand: Object = {
     name: "",
     brandId: 0,
@@ -52,6 +52,7 @@ export class BrandComponent implements OnInit {
   }
 
   getBrandByCategory(categoryId: number) {
+    this.categoryIdSelected = categoryId;
     this.brandService.getByCategoryId(categoryId).subscribe(
       (res) => {
         if (SUCCESS_STATUS == res["status"]) {
@@ -70,9 +71,10 @@ export class BrandComponent implements OnInit {
       .then((res) => {
         if (res["status"] == SUCCESS_STATUS) {
           this.toastr.success("Success", "");
-          debugger;
           if (this.type === "create") {
-            this.brands.push(res["data"]);
+            if (res["data"].categoryId == this.categoryIdSelected) {
+              this.brands.push(res["data"]);
+            }
           } else {
             for (let index = 0; index < this.brands.length; index++) {
               if (this.brands[index].brandId == res["data"].brandId) {
