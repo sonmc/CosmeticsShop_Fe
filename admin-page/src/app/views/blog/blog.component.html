@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <div class="card-header"><b>Blogs</b></div>
+        <div class="card-header"><h3><b>Blogs</b></h3></div>
         <span style="margin-left: 20px; font-style: italic; margin-top: 20px"
           ><a (click)="openModal('', 'add')" href="javascript:;"
             >Viết bài</a
@@ -15,6 +15,7 @@
                 <tr>
                   <th>Mã</th>
                   <th>Ảnh</th>
+                  <th>Tiêu đề</th>
                   <th>Nội dung</th>
                   <th>Trạng thái</th>
                   <th>Thời gian đăng</th>
@@ -32,6 +33,7 @@
                       [src]="blog.image"
                     />
                   </td>
+                  <td>{{ blog.title }}</td>
                   <td>{{ blog.content }}</td>
                   <td>{{ blog.status }}</td>
                   <td>{{ blog.createdDate }}</td>
@@ -118,6 +120,15 @@
             + Chọn ảnh
           </button>
           <span style="color: green">{{ uploadStatus }}</span>
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            name="Tiêu đề"
+            [(ngModel)]="blog.title"
+            class="form-control"
+            placeholder="Tiêu đề"
+          />
         </div>
         <div class="form-group">
           <textarea

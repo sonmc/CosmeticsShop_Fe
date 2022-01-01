@@ -1,40 +1,38 @@
-import { Injectable } from '@angular/core'; 
+import { Injectable } from '@angular/core';
 import { ApiService } from './api/api.service';
 import { API_URL } from '../constants/config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class UserService {
-  constructor(public apiService: ApiService) { }
+  constructor(public apiService: ApiService) {}
 
-  
-  get = () => {
-    let url = `${API_URL}users/get`;
-    return this.apiService.getWithToken(url);
-  }
-  
-  create = (user: any): Promise<Object> => {
+  register = (user: any): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}users/create`;
-      this.apiService.postWithToken(url, user).subscribe(res => {
-        resolve(res);
-      }, err => {
-        reject(err);
-      })
-    })
-  }
+      let url = `${API_URL}users/register`;
+      this.apiService.post(url, user).subscribe(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
+  };
 
-  deactive = (id: any): Promise<Object> => {
+  login = (user: any) => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}users/deactive?id=${id}`;
-      this.apiService.getWithToken(url).subscribe(res => {
-        resolve(res);
-      }, err => {
-        reject(err);
-      })
-    })
-  }
-
+      let url = `${API_URL}users/login`;
+      this.apiService.post(url, user).subscribe(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
+  };
 }

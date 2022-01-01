@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'src/app/containers/services/localStorage/local-storage.service';
 import { CommonService } from 'src/app/containers/services/common.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,17 +17,20 @@ export class HomeComponent implements OnInit {
   products: any = [];
   brands: any = [];
   clientIp: any = '';
-
+  currentUser: any = {};
+  dataSearch: any = '';
   constructor(
     private homeService: HomeService,
     public httpClient: HttpClient,
     private storageService: LocalStorageService,
     private toastr: ToastrService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public router: Router
   ) {
     this.commonService.getClientIp().then((res: any) => {
       this.clientIp = res['ip'];
     });
+    this.dataSearch = this.storageService.get('search');
   }
 
   ngOnInit(): void {
@@ -50,12 +54,15 @@ export class HomeComponent implements OnInit {
   };
 
   getProduct = (brandId: any, indexSelected: number) => {
-    this.homeService.getProduct(brandId).subscribe((res: any) => {
-      if (SUCCESS_STATUS == res['status']) {
-        this.setActiveForBrand(indexSelected);
-        this.products = res['data'];
-      }
-    });
+    this.homeService
+      .getProduct(brandId, this.dataSearch)
+      .subscribe((res: any) => {
+        if (SUCCESS_STATUS == res['status']) {
+          this.setActiveForBrand(indexSelected);
+          this.products = res['data'];
+          console.log(this.products);
+        }
+      });
   };
 
   getCategory = () => {
@@ -90,22 +97,22 @@ export class HomeComponent implements OnInit {
   }
 
   addToCart = (product: any) => {
-    let carts = [
-      {
-        customerIp: this.clientIp,
-        name: product.nameProduct,
-        description: product.description,
-        price: product.listedPrice,
-        quantity: 1,
-        total: product.listedPrice,
-        images: product.images,
-      },
-    ];
-    var customerCarts = this.storageService.get(this.clientIp);
-    if (customerCarts && customerCarts.length > 0) {
-      carts = [...customerCarts, ...carts];
-    }
-    this.storageService.set(this.clientIp, carts);
-    this.toastr.success('Success', 'Thêm vào giỏ hàng thành công');
+    let order = {
+      productId: product.id,
+      orderId: null,
+      quantity: 1,
+      balance: product.price,
+      clientIp: this.clientIp,
+      userId: null,
+    };
+    this.homeService.createOrderDetail(order).then((res: any) => {
+      if (res['status'] == SUCCESS_STATUS) {
+        this.toastr.success('Success', 'Thêm vào giỏ hàng thành công');
+      }
+    });
+  };
+
+  goDetail = () => {
+    this.router.navigate(['product-detail']);
   };
 }

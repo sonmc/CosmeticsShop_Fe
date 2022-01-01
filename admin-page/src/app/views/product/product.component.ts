@@ -24,10 +24,10 @@ export class ProductComponent implements OnInit {
     images: "",
     nameProduct: "",
     isDisabled: false,
-    listedPrice: "",
+    price: "",
     description: "",
     brandId: 0,
-    compositions: [],
+    compositionId: 0,
     brandName: "",
     totalItems: 0,
   };
@@ -79,10 +79,10 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  addComposition = (composition) => {
-    this.product["compositions"].push(composition);
+  addComposition = (composition) => { 
+    this.product["compositionId"] = parseInt(composition);
   };
-  
+
   changeBrand = (brandId) => {
     let brandDetail = this.brands.find((x) => x.brandId == brandId);
     this.product["brandName"] = brandDetail.name;
@@ -153,7 +153,7 @@ export class ProductComponent implements OnInit {
         : {
             brandId: 0,
             brandName: "",
-            listedPrice: 0,
+            price: 0,
             description: "",
           };
     this.uploadStatus = "";

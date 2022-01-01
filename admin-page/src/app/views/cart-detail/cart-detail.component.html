@@ -23,7 +23,7 @@
                 <tr *ngFor="let od of orderDetails">
                   <td>{{ od.product.nameProduct }}</td>
                   <td>{{ od.quantity }}</td>
-                  <td>{{ od.product.listedPrice }}</td>
+                  <td>{{ od.product.price }}</td>
                   <td>
                     <button
                       (click)="openModal(od, 'edit')"

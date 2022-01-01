@@ -7,22 +7,22 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { LayoutComponent } from './layout/layout.component';
-import { RegisterComponent } from './views/register/register.component';
 import { ToastrModule } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     LayoutComponent,
-    AppComponent,
-    RegisterComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule, 
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',

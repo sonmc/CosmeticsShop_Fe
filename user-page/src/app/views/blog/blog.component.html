@@ -1,11 +1,10 @@
 <section>
-  <div class="container">
+  <div class="container" style="width: 85% !important">
     <div class="row">
-      <div class="col-sm-3">
+      <!--  <div class="col-sm-3">
         <div class="left-sidebar">
           <h2>Category</h2>
           <div class="panel-group category-products" id="accordian">
-            <!--category-productsr-->
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
@@ -64,8 +63,7 @@
                   </ul>
                 </div>
               </div>
-            </div>
-
+            </div> 
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
@@ -129,10 +127,7 @@
               </div>
             </div>
           </div>
-          <!--/category-products-->
-
           <div class="brands_products">
-            <!--brands_products-->
             <h2>Brands</h2>
             <div class="brands-name">
               <ul class="nav nav-pills nav-stacked">
@@ -162,10 +157,7 @@
               </ul>
             </div>
           </div>
-          <!--/brands_products-->
-
           <div class="price-range">
-            <!--price-range-->
             <h2>Price Range</h2>
             <div class="well">
               <input
@@ -181,25 +173,18 @@
               <b>$ 0</b> <b class="pull-right">$ 600</b>
             </div>
           </div>
-          <!--/price-range-->
-
-          <div class="shipping text-center">
-            <!--shipping-->
-            <img src="images/home/shipping.jpg" alt="" />
-          </div>
-          <!--/shipping-->
         </div>
-      </div>
+      </div> -->
       <div class="col-sm-9">
         <div class="blog-post-area">
           <h2 class="title text-center">Những bài blog mới nhất</h2>
-          <div class="single-blog-post">
-            <h3>Girls Pink T Shirt arrived in store</h3>
+          <div class="single-blog-post" *ngFor="let blog of blogs">
+            <h3>{{ blog.title }}</h3>
             <div class="post-meta">
               <ul>
-                <li><i class="fa fa-user"></i> Mac Doe</li>
-                <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
-                <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
+                <li><i class="fa fa-user"></i>{{ blog.author }}</li>
+                <li><i class="fa fa-clock-o"></i>{{ blog.time }}</li>
+                <li><i class="fa fa-calendar"></i> {{ blog.date }}</li>
               </ul>
               <span>
                 <i class="fa fa-star"></i>
@@ -209,18 +194,68 @@
                 <i class="fa fa-star-half-o"></i>
               </span>
             </div>
-            <a href="">
-              <img src="images/blog/blog-one.jpg" alt="" />
+            <a href="javascript:;" *ngIf="blog.image">
+              <img [src]="blog.image" style="height: 500px" alt="" />
             </a>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur.
+              {{ blog.content }}
             </p>
-            <a class="btn btn-primary" href="">Read More</a>
+
+            <hr />
+            <div *ngIf="isShowComment" class="row clearfix">
+              <div class="col-md-12">
+                <div class="card chat-app">
+                  <div class="chat">
+                    <div class="chat-history">
+                      <ul class="m-b-0 chat-container">
+                        <li class="clearfix" *ngFor="let comment of comments">
+                          <div class="message-data">
+                            <span class="message-data-time"
+                              >{{ comment.userName }} đã bình luận lúc
+                              {{ comment.dateCreated }}</span
+                            >
+                          </div>
+                          <div class="message my-message">
+                            {{ comment.content }}
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div
+                      class="chat-message clearfix"
+                      style="border-top: 1px solid #f2f2f2"
+                    >
+                      <div class="input-group mb-0 col-md-12">
+                        <input
+                          (keyup.enter)="comment()"
+                          type="text"
+                          name="content"
+                          [(ngModel)]="content"
+                          class="form-control"
+                          placeholder="Bình luận..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              *ngIf="!isShowComment"
+              (click)="getComment(blog.id)"
+              type="button"
+              class="btn btn-primary"
+            >
+              Bình luận
+            </button>
+            <button
+              type="button"
+              *ngIf="isShowComment"
+              (click)="closeComment()"
+              class="btn btn-default"
+            >
+              Đóng
+            </button>
           </div>
           <!--  <div class="pagination-area">
             <ul class="pagination">

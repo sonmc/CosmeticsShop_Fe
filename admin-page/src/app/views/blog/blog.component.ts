@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { SUCCESS_STATUS, URL_IMAGE } from "./../../containers/constants/config";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { LocalStorageService } from "../../containers/services/localStorage/local-storage.service";
 
 @Component({
   selector: "app-blog",
@@ -13,10 +14,12 @@ import { ToastrService } from "ngx-toastr";
 export class BlogComponent implements OnInit {
   @ViewChild("modalCreate") modalCreate: ModalDirective;
   uploadStatus: string = "";
+  currentUser: any = {};
   blogs: any;
   type: string;
   blog: Object = {
     content: "",
+    title: "",
     status: true,
     createdDate: "",
     userId: 0,
@@ -28,12 +31,14 @@ export class BlogComponent implements OnInit {
     public blogService: BlogService,
     public router: Router,
     private toastr: ToastrService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private storageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
+    this.currentUser = this.storageService.get("user");
     this.blogService.get().subscribe(
-      (res) => { 
+      (res) => {
         if (SUCCESS_STATUS == res["status"]) {
           this.blogs = res["data"];
         }
@@ -45,6 +50,7 @@ export class BlogComponent implements OnInit {
   }
 
   save = () => {
+    this.blog["userId"] = this.currentUser.id;
     this.blogService
       .save(this.blog, this.type)
       .then((res) => {
@@ -114,7 +120,7 @@ export class BlogComponent implements OnInit {
     }
   };
 
-  blogDetail = (blogId) => { 
+  blogDetail = (blogId) => {
     this.router.navigate(["/blog-detail", blogId]);
   };
 }

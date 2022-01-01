@@ -112,8 +112,7 @@ export class BrandComponent implements OnInit {
             name: "",
             description: "",
             categoryId: 0,
-          };
-    debugger;
+          }; 
     this.modalCreate.show();
   };
 }

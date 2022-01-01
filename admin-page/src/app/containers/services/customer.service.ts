@@ -11,13 +11,13 @@ export class CustomerService {
 
   
   get = () => {
-    let url = `${API_URL}customers/get`;
+    let url = `${API_URL}users/get-customer`;
     return this.apiService.getWithToken(url);
   }
   
   save = (customer, type): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}customers/${type}`; 
+      let url = `${API_URL}users/${type}`; 
       this.apiService.postWithToken(url, customer).subscribe(res => {
         resolve(res);
       }, err => {
@@ -28,7 +28,7 @@ export class CustomerService {
  
   remove = (id): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}customers/delete?id=${id}`;
+      let url = `${API_URL}users/delete?id=${id}`;
       this.apiService.getWithToken(url).subscribe(res => {
         resolve(res);
       }, err => {

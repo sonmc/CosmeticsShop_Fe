@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SUCCESS_STATUS } from 'src/app/containers/constants/config';
-import { CartService } from 'src/app/containers/services/cart.service';
 import { CommonService } from 'src/app/containers/services/common.service';
-import { CustomerService } from 'src/app/containers/services/customer.service';
 import { HomeService } from 'src/app/containers/services/home.service';
 import { LocalStorageService } from 'src/app/containers/services/localStorage/local-storage.service';
 
@@ -11,13 +9,15 @@ import { LocalStorageService } from 'src/app/containers/services/localStorage/lo
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
-  carts: any = [];
-  clientIp: string = '';
+  orderDetails: any = [];
+  totalBalance: any = 0;
   customerInfo: any = {
-    name: '',
+    userName: '',
     phoneNumber: '',
     address: '',
+    clientIp: 0
   };
+  isShowPayment: boolean = false;
   constructor(
     private commonService: CommonService,
     private storageService: LocalStorageService,
@@ -25,17 +25,90 @@ export class CartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    var customer = this.storageService.get('customer');
     this.commonService.getClientIp().then((res: any) => {
       const ip = res['ip'];
-      this.clientIp = ip;
-      this.carts = this.getCartByIp(ip);
+      this.customerInfo.clientIp = ip;
+      let user = {
+        userId: customer?.id || 0,
+        clientIp: ip,
+      };
+      this.homeService.getOrderDetail(user).subscribe((res: any) => {
+        if (res.data && res.status === SUCCESS_STATUS) {
+          this.orderDetails = res.data;
+          this.calculatorTotalBalance(this.orderDetails);
+        }
+      });
     });
   }
 
-  getCartByIp(ip: string) {
-    let carts = this.storageService.get(ip);
-    return carts;
+  calculatorTotalBalance(orderDetails: any) {
+    let balance = 0;
+    orderDetails.forEach((order: any) => {
+      balance += order.balance;
+      this.totalBalance = parseFloat(balance.toFixed(3));
+    });
   }
+
+  decrease = (product: any) => {
+    this.orderDetails = this.orderDetails.map((item: any) => {
+      if (product.totalItems >= item.quantity && item.quantity > 1) {
+        if (item.id == product.id) {
+          item.quantity--;
+          item.balance = parseFloat(
+            (item.product.price * item.quantity).toFixed(3)
+          );
+          return item;
+        }
+        return item;
+      }
+      return item;
+    });
+    this.calculatorTotalBalance(this.orderDetails);
+  };
+
+  whenBlur = (product: any, target: any) => {
+    if (target.value && parseInt(target.value) > 0) {
+      this.orderDetails = this.orderDetails.map((item: any) => {
+        if (product.totalItems > item.quantity) {
+          if (item.id == product.id) {
+            item.balance = parseFloat(
+              (item.product.price * item.quantity).toFixed(3)
+            );
+            return item;
+          }
+          return item;
+        }
+        return item;
+      });
+      this.calculatorTotalBalance(this.orderDetails);
+    } else {
+      this.orderDetails = this.orderDetails.map((item: any) => {
+        if (product.totalItems > item.quantity) {
+          item.quantity = 1;
+        }
+        return item;
+      });
+    }
+  };
+
+  increase = (product: any) => {
+    this.orderDetails = this.orderDetails.map((item: any) => {
+      if (product.totalItems > item.quantity) {
+        if (item.id == product.id) {
+          item.quantity++;
+          item.balance = parseFloat(
+            (item.product.price * item.quantity).toFixed(3)
+          );
+          return item;
+        }
+        return item;
+      }
+      return item;
+    });
+    debugger;
+    this.calculatorTotalBalance(this.orderDetails);
+  };
 
   createCustomer() {
     this.customerInfo = {
@@ -49,23 +122,37 @@ export class CartComponent implements OnInit {
     });
   }
 
+  autoGenerateCode() {
+    var text = '';
+    var possible =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < 6; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+  }
+
   createOrder(customer: any) {
+    debugger
     let order = {
-      orderCode: '',
+      orderCode: this.autoGenerateCode(),
       customerId: customer.id,
-      customerName: customer.name,
+      customerName: customer.userName,
       customerAddress: customer.address,
       customerPhoneNumber: customer.phoneNumber + '',
-      status: 'Order',
-      orderDetails: this.carts,
+      status: 'Đang đặt hàng',
+      orderDetails: this.orderDetails,
+      totalBalance: this.totalBalance
     };
     this.homeService.createOrder(order).then((res: any) => {
       if (res.data && res.status === SUCCESS_STATUS) {
-        this.storageService.delete(this.clientIp);
-        this.carts = [];
+        this.orderDetails = [];
       }
     });
   }
+
+  order = () => {
+    this.isShowPayment = !this.isShowPayment;
+  };
 
   payment = () => {
     this.createCustomer();

@@ -1,6 +1,6 @@
 <header id="header">
   <div class="header-middle">
-    <div class="container">
+    <div class="container" style="width: 85% !important">
       <div class="row">
         <div class="col-md-4 clearfix">
           <div class="logo pull-left">
@@ -12,19 +12,26 @@
         <div class="col-md-8 clearfix">
           <div class="shop-menu clearfix pull-right">
             <ul class="nav navbar-nav">
-              <li>
+              <!--   <li>
                 <a href="javascript:;" (click)="changePage('/checkout')"
                   ><i class="fa fa-crosshairs"></i> Tài khoản</a
                 >
-              </li>
+              </li> -->
               <li>
                 <a href="javascript:;" (click)="changePage('/cart')"
                   ><i class="fa fa-shopping-cart"></i>Giỏ hàng
                 </a>
               </li>
               <li>
-                <a href="javascript:;" (click)="changePage('/login')"
+                <a
+                  *ngIf="!currentUser"
+                  href="javascript:;"
+                  (click)="changePage('/login')"
                   ><i class="fa fa-lock"></i> Đăng nhập</a
+                >
+                <a *ngIf="currentUser" href="javascript:;"
+                  ><i class="fa fa-user"></i>Xin chào,
+                  {{ currentUser.username }}</a
                 >
               </li>
             </ul>
@@ -35,7 +42,7 @@
   </div>
 
   <div class="header-bottom">
-    <div class="container">
+    <div class="container" style="width: 85% !important" >
       <div class="row">
         <div class="col-sm-9">
           <div class="navbar-header">
@@ -61,9 +68,11 @@
                   >Trang chủ</a
                 >
               </li>
-              <li class="dropdown">
-                <a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                <ul role="menu" class="sub-menu">
+              <!--  <li class="dropdown">
+               <a href="javascript:;" (click)="changePage('/products')"
+                  >Sản phẩm</a
+                >  
+                          <ul role="menu" class="sub-menu">
                   <li>
                     <a href="javascript:;" (click)="changePage('/products')"
                       >Sản phẩm</a
@@ -84,11 +93,11 @@
                       >Đăng nhập</a
                     >
                   </li>
-                </ul>
-              </li>
+                </ul>  
+              </li> -->
               <li class="dropdown">
-                <a href="#">Blog<i class="fa fa-angle-down"></i></a>
-                <ul role="menu" class="sub-menu">
+                <a href="javascript:;" (click)="changePage('/blog')">Blog</a>
+                <!--  <ul role="menu" class="sub-menu">
                   <li>
                     <a href="javascript:;" (click)="changePage('/blog')"
                       >Danh sách blog</a
@@ -99,19 +108,25 @@
                       >Blog chi tiết</a
                     >
                   </li>
-                </ul>
+                </ul> -->
               </li>
-              <li>
+              <!--   <li>
                 <a href="javascript:;" (click)="changePage('/contact')"
                   >Liên hệ</a
                 >
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
         <div class="col-sm-3">
           <div class="search_box pull-right">
-            <input type="text" placeholder="Tìm kiếm" />
+            <input
+              type="text"
+              name="search"
+              [(ngModel)]="composition"
+              (keyup.enter)="search()"
+              placeholder="Tìm kiếm"
+            />
           </div>
         </div>
       </div>

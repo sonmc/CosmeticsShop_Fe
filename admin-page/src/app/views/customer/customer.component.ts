@@ -17,6 +17,7 @@ export class CustomerComponent implements OnInit {
     name: "",
     phoneNumber: "",
     email: "",
+    role: 2,
   };
 
   constructor(
@@ -27,7 +28,7 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerService.get().subscribe(
-      (res) => { 
+      (res) => {
         if (SUCCESS_STATUS == res["status"]) {
           this.customers = res["data"];
         }

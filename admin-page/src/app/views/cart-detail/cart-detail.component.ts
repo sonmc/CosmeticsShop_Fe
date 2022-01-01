@@ -44,7 +44,7 @@ export class CartDetailComponent implements OnInit {
         ? {
             ...orderDetail,
             productName: orderDetail.product.nameProduct,
-            price: orderDetail.product.listedPrice,
+            price: orderDetail.product.price,
           }
         : {
             productName: "",

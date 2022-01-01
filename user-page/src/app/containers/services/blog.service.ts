@@ -1,22 +1,22 @@
-import { Injectable } from "@angular/core";
-import { ApiService } from "./api/api.service";
-import { API_URL } from "../constants/config";
+import { Injectable } from '@angular/core';
+import { ApiService } from './api/api.service';
+import { API_URL } from '../constants/config';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class BlogService {
   constructor(public apiService: ApiService) {}
 
   get = () => {
-    let url = `${API_URL}blogs/get`;
-    return this.apiService.getWithToken(url);
+    let url = `${API_URL}homes/getBlog`;
+    return this.apiService.get(url);
   };
 
   getBlogDetail = (blogId: any): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}blogs/getById?blogId=${blogId}`;
-      this.apiService.getWithToken(url).subscribe(
+      let url = `${API_URL}homes/getBlogById?blogId=${blogId}`;
+      this.apiService.get(url).subscribe(
         (res) => {
           resolve(res);
         },
@@ -26,11 +26,10 @@ export class BlogService {
       );
     });
   };
-
-  save = (blog: any, type: any): Promise<Object> => {
+  addComment = (comment: any): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}blogs/${type}`;
-      this.apiService.postWithToken(url, blog).subscribe(
+      let url = `${API_URL}homes/createComment`;
+      this.apiService.post(url, comment).subscribe(
         (res) => {
           resolve(res);
         },
@@ -40,18 +39,8 @@ export class BlogService {
       );
     });
   };
-
-  remove = (id: any): Promise<Object> => {
-    return new Promise((resolve, reject) => {
-      let url = `${API_URL}blogs/delete?id=${id}`;
-      this.apiService.getWithToken(url).subscribe(
-        (res) => {
-          resolve(res);
-        },
-        (err) => {
-          reject(err);
-        }
-      );
-    });
+  getComments = (blogId: number) => {
+    let url = `${API_URL}homes/getByBlogId?blogId=${blogId}`;
+    return this.apiService.getWithToken(url);
   };
 }
