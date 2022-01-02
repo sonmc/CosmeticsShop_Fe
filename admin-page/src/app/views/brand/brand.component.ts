@@ -39,6 +39,9 @@ export class BrandComponent implements OnInit {
     this.categoryService.get().subscribe(
       (res) => {
         if (SUCCESS_STATUS == res["status"]) {
+          if (res["data"].length == 0) {
+            this.toastr.error("Danh sách danh mục trống!", "Error");
+          }
           res["data"].forEach((element) => {
             this.categories.push(element);
             this.getBrandByCategory(res["data"][0].id || 0);
@@ -65,29 +68,33 @@ export class BrandComponent implements OnInit {
     );
   }
 
-  save = () => {
-    this.brandService
-      .save(this.brand, this.type)
-      .then((res) => {
-        if (res["status"] == SUCCESS_STATUS) {
-          this.toastr.success("Success", "");
-          if (this.type === "create") {
-            if (res["data"].categoryId == this.categoryIdSelected) {
-              this.brands.push(res["data"]);
-            }
-          } else {
-            for (let index = 0; index < this.brands.length; index++) {
-              if (this.brands[index].brandId == res["data"].brandId) {
-                this.brands[index] = res["data"];
+  save = () => { 
+    if (!this.brand["categoryId"] || this.brand["categoryId"] == 0) {
+      this.toastr.error("Danh sách danh mục trống!", "Error");
+    } else {
+      this.brandService
+        .save(this.brand, this.type)
+        .then((res) => {
+          if (res["status"] == SUCCESS_STATUS) {
+            this.toastr.success("Success", "");
+            if (this.type === "create") {
+              if (res["data"].categoryId == this.categoryIdSelected) {
+                this.brands.push(res["data"]);
+              }
+            } else {
+              for (let index = 0; index < this.brands.length; index++) {
+                if (this.brands[index].brandId == res["data"].brandId) {
+                  this.brands[index] = res["data"];
+                }
               }
             }
           }
-        }
-      })
-      .catch((e) => {
-        window.alert("Connection Error !");
-      });
-    this.modalCreate.hide();
+        })
+        .catch((e) => {
+          window.alert("Connection Error !");
+        });
+      this.modalCreate.hide();
+    }
   };
 
   remove = (id) => {
@@ -112,7 +119,7 @@ export class BrandComponent implements OnInit {
             name: "",
             description: "",
             categoryId: 0,
-          }; 
+          };
     this.modalCreate.show();
   };
 }

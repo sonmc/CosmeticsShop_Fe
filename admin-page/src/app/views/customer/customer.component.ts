@@ -1,9 +1,9 @@
-import { CustomerService } from "./../../containers/services/customer.service";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Router } from "@angular/router";
 import { SUCCESS_STATUS } from "./../../containers/constants/config";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { UserService } from "../../containers/services/user.service";
 
 @Component({
   selector: "app-customer",
@@ -21,13 +21,13 @@ export class CustomerComponent implements OnInit {
   };
 
   constructor(
-    public customerService: CustomerService,
+    public userService: UserService,
     public router: Router,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.customerService.get().subscribe(
+    this.userService.getCustomer().subscribe(
       (res) => {
         if (SUCCESS_STATUS == res["status"]) {
           this.customers = res["data"];
@@ -40,7 +40,7 @@ export class CustomerComponent implements OnInit {
   }
 
   save = () => {
-    this.customerService
+    this.userService
       .save(this.customer, this.type)
       .then((res) => {
         if (res["status"] == SUCCESS_STATUS) {
@@ -62,12 +62,12 @@ export class CustomerComponent implements OnInit {
     this.modalCreate.hide();
   };
 
-  remove = (id) => {
-    this.customerService.remove(id).then((res) => {
+  remove = (customer) => {  
+    this.userService.deactive(customer.id).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
         this.toastr.success("Success", "");
         for (let index = 0; index < this.customers.length; index++) {
-          if (this.customers[index].id == id) {
+          if (this.customers[index].id == customer.id) {
             this.customers.splice(index, 1);
           }
         }

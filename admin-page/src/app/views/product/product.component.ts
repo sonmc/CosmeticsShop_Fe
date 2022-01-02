@@ -30,6 +30,7 @@ export class ProductComponent implements OnInit {
     compositionId: 0,
     brandName: "",
     totalItems: 0,
+    code: this.autoGenerateCode(),
   };
 
   constructor(
@@ -45,6 +46,16 @@ export class ProductComponent implements OnInit {
     this.getCategory();
     this.getComposition();
   }
+
+  autoGenerateCode() {
+    var text = "";
+    var possible =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 6; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+  }
+
   getComposition() {
     this.compositionService.get().subscribe((res) => {
       if (SUCCESS_STATUS == res["status"]) {
@@ -79,7 +90,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  addComposition = (composition) => { 
+  addComposition = (composition) => {
     this.product["compositionId"] = parseInt(composition);
   };
 
@@ -101,9 +112,10 @@ export class ProductComponent implements OnInit {
 
   save = () => {
     if (this.product["brandId"] == 0) {
-      this.toastr.error("Please select a brand!", "Error");
+      this.toastr.error("Danh sách nhãn hiệu trống!", "Error");
     } else {
       this.product["brandId"] = parseInt(this.product["brandId"]);
+
       this.productService
         .save(this.product, this.type)
         .then((res) => {
@@ -147,6 +159,7 @@ export class ProductComponent implements OnInit {
 
   openModal = (product, type) => {
     this.type = type;
+    debugger
     this.product =
       type === "edit"
         ? { ...product }
@@ -155,6 +168,7 @@ export class ProductComponent implements OnInit {
             brandName: "",
             price: 0,
             description: "",
+            code: this.autoGenerateCode(),
           };
     this.uploadStatus = "";
     this.modalCreate.show();

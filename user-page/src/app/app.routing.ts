@@ -24,16 +24,9 @@ export const routes: Routes = [
         path: 'blog',
         loadChildren: () =>
           import('./views/blog/blog.module').then((m) => m.BlogModule),
-      },
+      }, 
       {
-        path: 'products',
-        loadChildren: () =>
-          import('./views/products/products.module').then(
-            (m) => m.ProductModule
-          ),
-      },
-      {
-        path: 'product-detail',
+        path: "product-detail/:idDetail", 
         loadChildren: () =>
           import('./views/product-detail/product-detail.module').then(
             (m) => m.ProductDetailModule

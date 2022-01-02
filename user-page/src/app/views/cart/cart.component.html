@@ -71,7 +71,7 @@
               <p class="cart_total_price">{{ orderDetail.balance }} .đ</p>
             </td>
             <td class="cart_delete">
-              <a class="cart_quantity_delete" href=""
+              <a class="cart_quantity_delete" (click)="deleteOrderDetail(orderDetail.id)" href="javascript:;"
                 ><i class="fa fa-times"></i
               ></a>
             </td>

@@ -27,6 +27,11 @@ export class HomeService {
     return this.apiService.post(url, param);
   };
 
+  getProductById = (id: any) => {
+    let url = `${API_URL}homes/products?id=${id}`;
+    return this.apiService.get(url);
+  };
+
   search = (composition: string) => {
     let url = `${API_URL}homes/search?=${composition}`;
     return this.apiService.get(url);
@@ -37,6 +42,11 @@ export class HomeService {
     return this.apiService.post(url, user);
   };
 
+  deleteOrderDetail = (id: any) => {
+    let url = `${API_URL}homes/delete-order-detail?id=${id}`;
+    return this.apiService.get(url);
+  };
+  
   createCustomer = (customer: any): Promise<Object> => {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}homes/create-customer`;

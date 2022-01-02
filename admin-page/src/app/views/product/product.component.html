@@ -51,6 +51,7 @@
                 <tr>
                   <th>Ảnh</th>
                   <th>Tên</th>
+                  <th>Mã sản phẩm</th>
                   <th>Giá</th>
                   <th>Danh mục</th>
                   <th>Mô tả</th>
@@ -68,6 +69,7 @@
                     />
                   </td>
                   <td>{{ u.nameProduct }}</td>
+                  <td>{{ u.code }}</td>
                   <td>{{ u.price }}</td>
                   <td>{{ u.brandName }}</td>
                   <td>{{ u.description }}</td>
@@ -121,6 +123,16 @@
       </div>
       <div class="modal-body">
         <form>
+          <div class="form-group">
+            <input
+              type="text"
+              name="code"
+              [value]="product.code"
+              [(ngModel)]="product.code"
+              class="form-control"
+              readonly
+            />
+          </div>
           <div class="form-group">
             <input
               type="text"

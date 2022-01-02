@@ -15,7 +15,7 @@ export class CartComponent implements OnInit {
     userName: '',
     phoneNumber: '',
     address: '',
-    clientIp: 0
+    clientIp: 0,
   };
   isShowPayment: boolean = false;
   constructor(
@@ -132,16 +132,15 @@ export class CartComponent implements OnInit {
   }
 
   createOrder(customer: any) {
-    debugger
     let order = {
       orderCode: this.autoGenerateCode(),
       customerId: customer.id,
       customerName: customer.userName,
       customerAddress: customer.address,
       customerPhoneNumber: customer.phoneNumber + '',
-      status: 'Đang đặt hàng',
+      status: '1',
       orderDetails: this.orderDetails,
-      totalBalance: this.totalBalance
+      totalBalance: this.totalBalance,
     };
     this.homeService.createOrder(order).then((res: any) => {
       if (res.data && res.status === SUCCESS_STATUS) {
@@ -149,7 +148,15 @@ export class CartComponent implements OnInit {
       }
     });
   }
-
+  deleteOrderDetail = (id: any) => {
+    this.homeService.deleteOrderDetail(id).subscribe((res: any) => {
+      if (res.data && res.status === SUCCESS_STATUS) {
+        this.orderDetails = this.orderDetails.filter(
+          (x: any) => x.id != res.data.id
+        );
+      }
+    });
+  };
   order = () => {
     this.isShowPayment = !this.isShowPayment;
   };

@@ -5,7 +5,7 @@
         <div class="product-details">
           <div class="col-sm-5">
             <div class="view-product">
-              <img src="./assets/images/product-details/1.jpg" alt="" />
+              <img [src]="product.images" alt="" />
             </div>
             <div
               id="similar-product"
@@ -29,27 +29,26 @@
             </div>
           </div>
           <div class="col-sm-7">
-            <div class="product-information">
-              <!--/product-information-->
+            <div class="product-information"> 
               <img
                 src="./assets/images/product-details/new.jpg"
                 class="newarrival"
                 alt=""
               />
-              <h2>Anne Klein Sleeveless Colorblock Scuba</h2>
-              <p>Mã sản phẩm: 1089772</p>
+              <h2>{{product.nameProduct}}</h2>
+              <p>Mã sản phẩm: {{product.code}}</p>
               <img src="./assets/images/product-details/rating.png" alt="" />
               <span>
-                <span>US $59</span>
+                <span>{{product.price}} .đ</span>
                 <label>Quantity:</label>
-                <input type="text" value="3" />
-                <button type="button" class="btn btn-fefault cart">
+                <input type="text" value="1" />
+                <button type="button" (click)="addToCart(product)" class="btn btn-fefault cart">
                   <i class="fa fa-shopping-cart"></i>
                   Add to cart
                 </button>
               </span> 
-              <p><b>Tình trạng:</b>Còn hàng</p>
-              <p><b>Nhãn hiệu:</b> E-SHOPPER</p>
+              <p><b>Tình trạng:</b> Còn hàng</p>
+              <p><b>Nhãn hiệu:</b> {{product.brandName}}</p>
               <a href=""
                 ><img
                   src="./assets/images/product-details/share.png"

@@ -57,7 +57,7 @@ export class CartComponent implements OnInit {
     this.cartService.get().subscribe(
       (res) => {
         if (SUCCESS_STATUS == res["status"]) {
-          this.carts = res["data"].filter((x) => x.id != 9999);
+          this.carts = res["data"];
           this.carts = this.carts.map((item) => {
             item.statusName = this.getStatus(item.status);
             return item;
@@ -70,13 +70,14 @@ export class CartComponent implements OnInit {
     );
   }
 
-  searchOrderByCode = () => {
+  searchOrderByCode = () => { 
     this.cartService.searchOrderByCode(this.orderCodeSearch).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
         this.carts = res["data"];
       }
     });
   };
+  
   getStatus = (statusKey) => {
     return this.statuses.find((x) => x.key == statusKey).value;
   };

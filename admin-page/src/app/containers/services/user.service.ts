@@ -10,8 +10,8 @@ export class UserService {
   constructor(public apiService: ApiService) { }
 
   
-  get = () => {
-    let url = `${API_URL}users/get`;
+  getCustomer = () => {
+    let url = `${API_URL}users/get-customer`;
     return this.apiService.getWithToken(url);
   }
   
@@ -19,6 +19,17 @@ export class UserService {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}users/create`;
       this.apiService.postWithToken(url, user).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })
+  }
+  
+  save = (customer, type): Promise<Object> => {
+    return new Promise((resolve, reject) => {
+      let url = `${API_URL}users/${type}`; 
+      this.apiService.postWithToken(url, customer).subscribe(res => {
         resolve(res);
       }, err => {
         reject(err);
@@ -36,5 +47,5 @@ export class UserService {
       })
     })
   }
-
+  
 }

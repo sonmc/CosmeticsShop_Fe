@@ -135,7 +135,7 @@
             <div class="product-image-wrapper">
               <div class="single-products">
                 <div class="productinfo text-center">
-                  <img [src]="product.images" style="height: 250px" alt="" />
+                  <img [src]="product.images" (click)="goDetail(product.id)" style="height: 250px" alt="" />
                   <h2>{{ product.price }} đ</h2>
                   <p>{{ product.nameProduct }}</p>
                   <a
@@ -145,7 +145,7 @@
                     ><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a
                   >
                 </div>
-                <div class="product-overlay" (click)="goDetail()">
+               <!--  <div class="product-overlay">
                   <div class="overlay-content">
                     <h2>{{ product.price }} đ</h2>
                     <p>{{ product.nameProduct }}</p>
@@ -156,7 +156,7 @@
                       ><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a
                     >
                   </div>
-                </div>
+                </div> -->
               </div>
               <!--   <div class="choose">
               <ul class="nav nav-pills nav-justified">

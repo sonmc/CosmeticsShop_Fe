@@ -30,13 +30,11 @@ export class HomeComponent implements OnInit {
     this.commonService.getClientIp().then((res: any) => {
       this.clientIp = res['ip'];
     });
-    this.dataSearch = this.storageService.get('search');
+    this.dataSearch = this.storageService.get('search') || '';
   }
 
   ngOnInit(): void {
     this.getCategory();
-    this.getProduct(1, 0);
-    this.getBrand(1, 0);
   }
 
   getBrand = (categoryId: any, indexSelected: number) => {
@@ -49,6 +47,7 @@ export class HomeComponent implements OnInit {
           return { ...element, active: 'inactive' };
         });
         this.setActiveForCategory(indexSelected);
+        this.getProduct(this.brands[0].brandId, 0);
       }
     });
   };
@@ -59,8 +58,7 @@ export class HomeComponent implements OnInit {
       .subscribe((res: any) => {
         if (SUCCESS_STATUS == res['status']) {
           this.setActiveForBrand(indexSelected);
-          this.products = res['data'];
-          console.log(this.products);
+          this.products = res['data']; 
         }
       });
   };
@@ -73,7 +71,8 @@ export class HomeComponent implements OnInit {
             return { ...element, active: 'activeList' };
           }
           return { ...element, active: 'inactive' };
-        });
+        }); 
+        this.getBrand(this.categories[0].id, 0);
       }
     });
   };
@@ -112,7 +111,7 @@ export class HomeComponent implements OnInit {
     });
   };
 
-  goDetail = () => {
-    this.router.navigate(['product-detail']);
+  goDetail = (idDetail: any) => {
+    this.router.navigate(['product-detail', idDetail]);
   };
 }

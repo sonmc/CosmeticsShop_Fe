@@ -46,7 +46,7 @@ export class LoginComponent {
               username: user.userName,
               token: user.token,
             });
-            this.router.navigate(["/customer"]);
+            this.router.navigate(["/cart"]);
           } else {
             this.messageError = res["message"];
           }

@@ -195,7 +195,11 @@
               </span>
             </div>
             <a href="javascript:;" *ngIf="blog.image">
-              <img [src]="blog.image" style="height: 500px" alt="" />
+              <img
+                [src]="blog.image"
+                style="height: 300px; width: 300px"
+                alt=""
+              />
             </a>
             <p>
               {{ blog.content }}

@@ -59,6 +59,7 @@ export class StatisticalComponent {
   filter = () => {
     this.caculatorStatistical(this.dateTime);
   };
+  
   caculatorStatistical = (dateTime) => {
     this.commonService.caculatorStatistical(dateTime).subscribe((res) => {
       if (res["status"] == SUCCESS_STATUS) {

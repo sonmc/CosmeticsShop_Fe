@@ -15,15 +15,15 @@
                 <tr>
                   <th>Tên</th>
                   <th>Số điện thoại</th>
-                  <th>Email</th>
+                  <th>ĐỊa chỉ</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let ca of customers">
-                  <td>{{ ca.name }}</td>
+                  <td>{{ ca.userName }}</td>
                   <td>{{ ca.phoneNumber }}</td>
-                  <td>{{ ca.email }}</td>
+                  <td>{{ ca.address }}</td>
                   <td>
                     <button
                       (click)="openModal(ca, 'edit')"
@@ -32,7 +32,7 @@
                       Update
                     </button>
                     <button
-                      (click)="remove(ca.id)"
+                      (click)="remove(ca)"
                       class="btn btn-square btn-danger btn-sm"
                     >
                       Delete
