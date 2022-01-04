@@ -159,7 +159,6 @@ export class ProductComponent implements OnInit {
 
   openModal = (product, type) => {
     this.type = type;
-    debugger
     this.product =
       type === "edit"
         ? { ...product }
@@ -169,6 +168,7 @@ export class ProductComponent implements OnInit {
             price: 0,
             description: "",
             code: this.autoGenerateCode(),
+            compositionId: 0,
           };
     this.uploadStatus = "";
     this.modalCreate.show();

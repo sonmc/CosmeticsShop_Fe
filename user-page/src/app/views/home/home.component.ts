@@ -1,18 +1,20 @@
 import { SUCCESS_STATUS } from './../../containers/constants/config';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HomeService } from 'src/app/containers/services/home.service';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'src/app/containers/services/localStorage/local-storage.service';
 import { CommonService } from 'src/app/containers/services/common.service';
 import { Router } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
+  messageConfirm: string = '';
   categories: any = [];
   products: any = [];
   brands: any = [];
@@ -58,7 +60,7 @@ export class HomeComponent implements OnInit {
       .subscribe((res: any) => {
         if (SUCCESS_STATUS == res['status']) {
           this.setActiveForBrand(indexSelected);
-          this.products = res['data']; 
+          this.products = res['data'];
         }
       });
   };
@@ -71,7 +73,7 @@ export class HomeComponent implements OnInit {
             return { ...element, active: 'activeList' };
           }
           return { ...element, active: 'inactive' };
-        }); 
+        });
         this.getBrand(this.categories[0].id, 0);
       }
     });
@@ -106,7 +108,8 @@ export class HomeComponent implements OnInit {
     };
     this.homeService.createOrderDetail(order).then((res: any) => {
       if (res['status'] == SUCCESS_STATUS) {
-        this.toastr.success('Success', 'Thêm vào giỏ hàng thành công');
+        $('#modalConfirm').modal('show');
+        this.messageConfirm = 'Thêm vào giỏ hàng thành công!';
       }
     });
   };

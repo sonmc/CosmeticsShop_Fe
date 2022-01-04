@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
           token: res.data.token,
         });
         this.router.navigate(['/home']);
+        window.location.reload();
       }
     });
   };

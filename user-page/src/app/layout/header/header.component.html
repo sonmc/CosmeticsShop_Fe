@@ -29,10 +29,21 @@
                   (click)="changePage('/login')"
                   ><i class="fa fa-lock"></i> Đăng nhập</a
                 >
-                <a *ngIf="currentUser" href="javascript:;"
-                  ><i class="fa fa-user"></i>Xin chào,
-                  {{ currentUser.username }}</a
-                >
+                <div class="dropdown" *ngIf="currentUser">
+                  <button
+                    class="btn btn-default dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                  >
+                    Xin chào,
+                    {{ currentUser.username }}
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="javascript:;" (click)="logout()">Đăng xuất</a>
+                    </li>
+                  </ul>
+                </div>
               </li>
             </ul>
           </div>
@@ -42,7 +53,7 @@
   </div>
 
   <div class="header-bottom">
-    <div class="container" style="width: 85% !important" >
+    <div class="container" style="width: 85% !important">
       <div class="row">
         <div class="col-sm-9">
           <div class="navbar-header">

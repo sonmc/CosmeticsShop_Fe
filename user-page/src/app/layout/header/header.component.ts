@@ -29,4 +29,10 @@ export class HeaderComponent {
     this.localStorageService.set('search', this.composition);
     window.location.reload();
   };
+
+  logout = () => {
+    this.localStorageService.delete('customer');
+    this.router.navigate(['/home']);
+    window.location.reload();
+  };
 }

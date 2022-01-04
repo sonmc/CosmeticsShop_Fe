@@ -3,12 +3,14 @@ import { SUCCESS_STATUS } from 'src/app/containers/constants/config';
 import { CommonService } from 'src/app/containers/services/common.service';
 import { HomeService } from 'src/app/containers/services/home.service';
 import { LocalStorageService } from 'src/app/containers/services/localStorage/local-storage.service';
+declare var $: any;
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
+  messageConfirm: string = "";
   orderDetails: any = [];
   totalBalance: any = 0;
   customerInfo: any = {
@@ -105,8 +107,7 @@ export class CartComponent implements OnInit {
         return item;
       }
       return item;
-    });
-    debugger;
+    }); 
     this.calculatorTotalBalance(this.orderDetails);
   };
 
@@ -145,6 +146,8 @@ export class CartComponent implements OnInit {
     this.homeService.createOrder(order).then((res: any) => {
       if (res.data && res.status === SUCCESS_STATUS) {
         this.orderDetails = [];
+        $('#modalConfirm').modal('show');
+        this.messageConfirm = 'Đặt hàng thành công!';
       }
     });
   }

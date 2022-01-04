@@ -71,7 +71,10 @@
               <p class="cart_total_price">{{ orderDetail.balance }} .đ</p>
             </td>
             <td class="cart_delete">
-              <a class="cart_quantity_delete" (click)="deleteOrderDetail(orderDetail.id)" href="javascript:;"
+              <a
+                class="cart_quantity_delete"
+                (click)="deleteOrderDetail(orderDetail.id)"
+                href="javascript:;"
                 ><i class="fa fa-times"></i
               ></a>
             </td>
@@ -163,3 +166,24 @@
     </div>
   </div>
 </section>
+<div
+  class="modal fade"
+  id="modalConfirm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h3>{{ messageConfirm }}</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

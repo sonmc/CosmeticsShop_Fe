@@ -21,4 +21,7 @@ export class LayoutComponent implements OnInit {
     this.currentUser = this.authService.getLocal();
     console.log(this.currentUser);
   }
+  logout = () => {
+    this.authService.logout();
+  }
 }

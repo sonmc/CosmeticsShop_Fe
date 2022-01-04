@@ -27,7 +27,7 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.homeService.getProductById(this.idDetail).subscribe((res: any) => {
-      if (res['status'] == SUCCESS_STATUS) {
+      if (res['status'] == SUCCESS_STATUS) { 
         this.product = res['data'];
       }
     });
