@@ -69,12 +69,13 @@
                     >
                       Cập nhật
                     </button>
-               <!--      <button
-                      (click)="remove(ca.id)"
+                    <button
+                      *ngIf="ca.status < 5"
+                      (click)="cancelOrder(ca.id)"
                       class="btn btn-square btn-danger btn-sm"
                     >
-                      Xóa
-                    </button> -->
+                      Hủy đơn hàng
+                    </button>
                   </td>
                 </tr>
               </tbody>

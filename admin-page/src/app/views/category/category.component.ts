@@ -11,7 +11,8 @@ import { ToastrService } from "ngx-toastr";
 })
 export class CategoryComponent implements OnInit {
   @ViewChild("modalCreate") modalCreate: ModalDirective;
-  categories: any;
+  categories: any = [];
+  messageError: string = "";
   type: string;
   category: Object = {
     name: "",
@@ -26,7 +27,7 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryService.get().subscribe(
-      (res) => { 
+      (res) => {
         if (SUCCESS_STATUS == res["status"]) {
           this.categories = res["data"].filter((x) => x.id != 9999);
         }
@@ -36,28 +37,36 @@ export class CategoryComponent implements OnInit {
       }
     );
   }
-
+  changeField = () => {
+    if (this.category["name"]) {
+      this.messageError = "";
+    }
+  };
   save = () => {
-    this.categoryService
-      .save(this.category, this.type)
-      .then((res) => {
-        if (res["status"] == SUCCESS_STATUS) {
-          this.toastr.success("Success", "");
-          if (this.type === "create") {
-            this.categories.push(res["data"]);
-          } else {
-            for (let index = 0; index < this.categories.length; index++) {
-              if (this.categories[index].id == res["data"].id) {
-                this.categories[index] = res["data"];
+    if (this.category["name"]) {
+      this.categoryService
+        .save(this.category, this.type)
+        .then((res) => {
+          if (res["status"] == SUCCESS_STATUS) {
+            this.toastr.success("Success", "");
+            if (this.type === "create") {
+              this.categories.push(res["data"]);
+            } else {
+              for (let index = 0; index < this.categories.length; index++) {
+                if (this.categories[index].id == res["data"].id) {
+                  this.categories[index] = res["data"];
+                }
               }
             }
           }
-        }
-      })
-      .catch((e) => {
-        window.alert("Connection Error !");
-      });
-    this.modalCreate.hide();
+        })
+        .catch((e) => {
+          window.alert("Connection Error !");
+        });
+      this.modalCreate.hide();
+    } else {
+      this.messageError = "Vui lòng nhập tên danh mục";
+    }
   };
 
   remove = (id) => {
@@ -74,6 +83,7 @@ export class CategoryComponent implements OnInit {
   };
 
   openModal = (category, type) => {
+    this.messageError = "";
     this.type = type;
     this.category =
       type === "edit"

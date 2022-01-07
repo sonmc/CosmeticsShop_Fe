@@ -17,6 +17,7 @@ export class BlogComponent implements OnInit {
   currentUser: any = {};
   blogs: any;
   type: string;
+  messageError: string;
   blog: Object = {
     content: "",
     title: "",
@@ -48,32 +49,39 @@ export class BlogComponent implements OnInit {
       }
     );
   }
-
+  changeField = () => {
+    this.messageError = "";
+  };
   save = () => {
-    this.blog["userId"] = this.currentUser.id;
-    this.blogService
-      .save(this.blog, this.type)
-      .then((res) => {
-        if (res["status"] == SUCCESS_STATUS) {
-          this.toastr.success("Success", "");
-          if (this.type === "add") {
-            this.blogs.push(res["data"]);
-          } else {
-            for (let index = 0; index < this.blogs.length; index++) {
-              if (this.blogs[index].id == res["data"].id) {
-                this.blogs[index] = res["data"];
+    if (this.blog["content"] && this.blog["title"]) {
+      this.blog["userId"] = this.currentUser.id;
+      this.blogService
+        .save(this.blog, this.type)
+        .then((res) => {
+          if (res["status"] == SUCCESS_STATUS) {
+            this.toastr.success("Success", "");
+            if (this.type === "add") {
+              this.blogs.push(res["data"]);
+            } else {
+              for (let index = 0; index < this.blogs.length; index++) {
+                if (this.blogs[index].id == res["data"].id) {
+                  this.blogs[index] = res["data"];
+                }
               }
             }
           }
-        }
-      })
-      .catch((e) => {
-        window.alert("Connection Error !");
-      });
-    this.modalCreate.hide();
+        })
+        .catch((e) => {
+          window.alert("Connection Error !");
+        });
+      this.modalCreate.hide();
+    } else {
+      this.messageError = "Vui lòng nhập đầy đủ tiêu đề và nội dung";
+    }
   };
 
   openModal = (blog, type) => {
+    this.messageError = "";
     this.type = type;
     this.blog =
       type === "edit"

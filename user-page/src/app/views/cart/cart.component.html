@@ -139,6 +139,7 @@
               [(ngModel)]="customerInfo.userName"
               name="name"
               placeholder="Họ và tên"
+              (change)="changeInfo()"
             />
 
             <input
@@ -146,15 +147,18 @@
               name="phone"
               [(ngModel)]="customerInfo.phoneNumber"
               placeholder="Số điện thoại liên hệ"
+              (change)="changeInfo()"
             />
             <input
               type="text"
               name="address"
               [(ngModel)]="customerInfo.address"
               placeholder="Địa chỉ giao hàng."
+              (change)="changeInfo()"
             />
           </form>
         </div>
+        <p style="color: red">{{ infoIsEmpty }}</p>
       </div>
       <button
         type="button"

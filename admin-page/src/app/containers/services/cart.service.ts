@@ -28,7 +28,7 @@ export class CartService {
   };
   edit = (cart): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}orders/edit`;
+      let url = `${API_URL}orders/update-order`;
       this.apiService.postWithToken(url, cart).subscribe(
         (res) => {
           resolve(res);
@@ -43,6 +43,20 @@ export class CartService {
   remove = (id): Promise<Object> => {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}orders/delete?id=${id}`;
+      this.apiService.getWithToken(url).subscribe(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
+  };
+
+  cancelOrder = (id): Promise<Object> => {
+    return new Promise((resolve, reject) => {
+      let url = `${API_URL}orders/cancel-order?id=${id}`;
       this.apiService.getWithToken(url).subscribe(
         (res) => {
           resolve(res);

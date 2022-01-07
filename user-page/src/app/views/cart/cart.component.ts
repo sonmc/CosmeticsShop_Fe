@@ -10,7 +10,7 @@ declare var $: any;
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
-  messageConfirm: string = "";
+  messageConfirm: string = '';
   orderDetails: any = [];
   totalBalance: any = 0;
   customerInfo: any = {
@@ -19,6 +19,7 @@ export class CartComponent implements OnInit {
     address: '',
     clientIp: 0,
   };
+  infoIsEmpty: string = '';
   isShowPayment: boolean = false;
   constructor(
     private commonService: CommonService,
@@ -59,10 +60,8 @@ export class CartComponent implements OnInit {
           item.quantity--;
           item.balance = parseFloat(
             (item.product.price * item.quantity).toFixed(3)
-          );
-          return item;
-        }
-        return item;
+          ); 
+        } 
       }
       return item;
     });
@@ -77,9 +76,7 @@ export class CartComponent implements OnInit {
             item.balance = parseFloat(
               (item.product.price * item.quantity).toFixed(3)
             );
-            return item;
           }
-          return item;
         }
         return item;
       });
@@ -102,12 +99,10 @@ export class CartComponent implements OnInit {
           item.balance = parseFloat(
             (item.product.price * item.quantity).toFixed(3)
           );
-          return item;
         }
-        return item;
       }
       return item;
-    }); 
+    });
     this.calculatorTotalBalance(this.orderDetails);
   };
 
@@ -165,6 +160,24 @@ export class CartComponent implements OnInit {
   };
 
   payment = () => {
-    this.createCustomer();
+    if (
+      this.customerInfo.userName &&
+      this.customerInfo.phoneNumber &&
+      this.customerInfo.address
+    ) {
+      this.createCustomer();
+    } else {
+      this.infoIsEmpty = 'Xin mời quý khách nhập đầy đủ thông tin liên hệ !';
+    }
+  };
+  changeInfo = () => {
+    if (
+      this.customerInfo.userName &&
+      this.customerInfo.phoneNumber &&
+      this.customerInfo.address
+    ) {
+      this.infoIsEmpty = '';
+    } else { 
+    }
   };
 }

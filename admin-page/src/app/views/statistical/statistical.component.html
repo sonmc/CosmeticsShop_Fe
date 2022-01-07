@@ -77,6 +77,25 @@
                 </th>
               </tr>
             </table>
+            <hr />
+            <h3>Thông tin đơn hủy</h3>
+
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Nhãn hiệu</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Giá</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orderCanceled">
+                  <td>{{ order.brand }}</td>
+                  <td>{{ order.product }}</td>
+                  <td>{{ order.price }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

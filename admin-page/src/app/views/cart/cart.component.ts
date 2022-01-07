@@ -70,24 +70,25 @@ export class CartComponent implements OnInit {
     );
   }
 
-  searchOrderByCode = () => { 
+  searchOrderByCode = () => {
     this.cartService.searchOrderByCode(this.orderCodeSearch).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
         this.carts = res["data"];
       }
     });
   };
-  
+
   getStatus = (statusKey) => {
     return this.statuses.find((x) => x.key == statusKey).value;
   };
+ 
 
-  remove = (id) => {
-    this.cartService.remove(id).then((res) => {
+  cancelOrder = (cartId) => {
+    this.cartService.cancelOrder(cartId).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
         this.toastr.success("Success", "");
         for (let index = 0; index < this.carts.length; index++) {
-          if (this.carts[index].id == id) {
+          if (this.carts[index].id == cartId) {
             this.carts.splice(index, 1);
           }
         }

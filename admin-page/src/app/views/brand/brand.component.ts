@@ -12,7 +12,7 @@ import { CategoryService } from "../../containers/services/category.service";
 })
 export class BrandComponent implements OnInit {
   @ViewChild("modalCreate") modalCreate: ModalDirective;
-
+  messageError: string = "";
   brands: any = [];
   type: string;
   categories: any = [];
@@ -68,32 +68,36 @@ export class BrandComponent implements OnInit {
     );
   }
 
-  save = () => { 
-    if (!this.brand["categoryId"] || this.brand["categoryId"] == 0) {
-      this.toastr.error("Danh sách danh mục trống!", "Error");
-    } else {
-      this.brandService
-        .save(this.brand, this.type)
-        .then((res) => {
-          if (res["status"] == SUCCESS_STATUS) {
-            this.toastr.success("Success", "");
-            if (this.type === "create") {
-              if (res["data"].categoryId == this.categoryIdSelected) {
-                this.brands.push(res["data"]);
-              }
-            } else {
-              for (let index = 0; index < this.brands.length; index++) {
-                if (this.brands[index].brandId == res["data"].brandId) {
-                  this.brands[index] = res["data"];
+  save = () => {
+    if (this.brand["name"]) {
+      if (!this.brand["categoryId"] || this.brand["categoryId"] == 0) {
+        this.messageError = "Danh sách danh mục trống!";
+      } else {
+        this.brandService
+          .save(this.brand, this.type)
+          .then((res) => {
+            if (res["status"] == SUCCESS_STATUS) {
+              this.toastr.success("Success", "");
+              if (this.type === "create") {
+                if (res["data"].categoryId == this.categoryIdSelected) {
+                  this.brands.push(res["data"]);
+                }
+              } else {
+                for (let index = 0; index < this.brands.length; index++) {
+                  if (this.brands[index].brandId == res["data"].brandId) {
+                    this.brands[index] = res["data"];
+                  }
                 }
               }
             }
-          }
-        })
-        .catch((e) => {
-          window.alert("Connection Error !");
-        });
-      this.modalCreate.hide();
+          })
+          .catch((e) => {
+            window.alert("Connection Error !");
+          });
+        this.modalCreate.hide();
+      }
+    } else {
+      this.messageError = "Vui lòng nhập tên nhãn hiệu";
     }
   };
 
@@ -111,6 +115,7 @@ export class BrandComponent implements OnInit {
   };
 
   openModal = (brand, type) => {
+    this.messageError = "";
     this.type = type;
     this.brand =
       type === "edit"

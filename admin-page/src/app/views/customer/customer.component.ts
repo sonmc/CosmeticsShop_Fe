@@ -11,7 +11,8 @@ import { UserService } from "../../containers/services/user.service";
 })
 export class CustomerComponent implements OnInit {
   @ViewChild("modalCreate") modalCreate: ModalDirective;
-  customers: any;
+  customers: any = [];
+  messageError: string = "";
   type: string;
   customer: Object = {
     name: "",
@@ -40,29 +41,37 @@ export class CustomerComponent implements OnInit {
   }
 
   save = () => {
-    this.userService
-      .save(this.customer, this.type)
-      .then((res) => {
-        if (res["status"] == SUCCESS_STATUS) {
-          this.toastr.success("Success", "");
-          if (this.type === "create") {
-            this.customers.push(res["data"]);
-          } else {
-            for (let index = 0; index < this.customers.length; index++) {
-              if (this.customers[index].id == res["data"].id) {
-                this.customers[index] = res["data"];
+    if (
+      this.customer["name"] &&
+      this.customer["phoneNumber"] &&
+      this.customer["email"]
+    ) {
+      this.userService
+        .save(this.customer, this.type)
+        .then((res) => {
+          if (res["status"] == SUCCESS_STATUS) {
+            this.toastr.success("Success", "");
+            if (this.type === "create") {
+              this.customers.push(res["data"]);
+            } else {
+              for (let index = 0; index < this.customers.length; index++) {
+                if (this.customers[index].id == res["data"].id) {
+                  this.customers[index] = res["data"];
+                }
               }
             }
           }
-        }
-      })
-      .catch((e) => {
-        window.alert("Connection Error !");
-      });
-    this.modalCreate.hide();
+        })
+        .catch((e) => {
+          window.alert("Connection Error !");
+        });
+      this.modalCreate.hide();
+    } else {
+      this.messageError = "Vui lòng nhập đầy đủ thông tin";
+    }
   };
 
-  remove = (customer) => {  
+  remove = (customer) => {
     this.userService.deactive(customer.id).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
         this.toastr.success("Success", "");

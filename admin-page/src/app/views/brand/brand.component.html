@@ -98,6 +98,7 @@
               [(ngModel)]="brand.name"
               class="form-control"
               placeholder="Tên nhãn hiệu"
+              (change)="changeField()"
             />
           </div>
           <div class="form-group">
@@ -125,6 +126,7 @@
             </select>
           </div>
         </form>
+        <p style="color: red">{{ messageError }}</p>
       </div>
       <div class="modal-footer">
         <button

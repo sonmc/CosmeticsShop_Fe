@@ -8,7 +8,7 @@ import { CommonService } from "../../containers/services/common.service";
 })
 export class StatisticalComponent {
   statisticals: any = [];
-
+  orderCanceled: any = [];
   dateTime: any = {
     dateFrom: "2022-02-02",
     dateTo: "2022-02-02",
@@ -59,31 +59,41 @@ export class StatisticalComponent {
   filter = () => {
     this.caculatorStatistical(this.dateTime);
   };
-  
+
+  convertData(statisticals){
+
+    let inventories = 0;
+    let solds = 0;
+    let revenues = 0;
+
+    statisticals.map((item) => {
+      item.revenue = item.price * item.soldQuantity;
+      return item;
+    });
+
+    statisticals.forEach((item) => { 
+      inventories += item.inventory;
+      solds += item.soldQuantity;
+      revenues += item.revenue;
+    });
+
+    this.totalCalculator = {
+      totalInventory: inventories,
+      totalsoldQuantity: solds,
+      totalRevenues: revenues,
+    };
+    return statisticals;
+  }
+
   caculatorStatistical = (dateTime) => {
     this.commonService.caculatorStatistical(dateTime).subscribe((res) => {
       if (res["status"] == SUCCESS_STATUS) {
-        this.statisticals = res["data"];
-        let inventories = 0;
-        let solds = 0;
-        let revenues = 0;
-
-        this.statisticals.map((item) => {
-          item.revenue = item.price * item.soldQuantity;
-          return item;
-        });
-
-        this.statisticals.forEach((item) => {
-          inventories += item.inventory;
-          solds += item.soldQuantity;
-          revenues += item.revenue;
-        });
-
-        this.totalCalculator = {
-          totalInventory: inventories,
-          totalsoldQuantity: solds,
-          totalRevenues: revenues,
-        };
+        let statisticals = res["data"].filter((x) => x.statusOrder < 6);
+        let orderCanceled = res["data"].filter((x) => x.statusOrder == 6);
+         
+        this.statisticals = this.convertData(statisticals);
+        this.orderCanceled = this.convertData(orderCanceled);
+       
       }
     });
   };
