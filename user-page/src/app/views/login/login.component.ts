@@ -14,6 +14,12 @@ export class LoginComponent implements OnInit {
     email: '',
     password: '',
   };
+  userLogin = {
+    username: '',
+    password: '',
+  };
+  messageError: string = '';
+
   constructor(
     private userService: UserService,
     private router: Router,
@@ -36,16 +42,21 @@ export class LoginComponent implements OnInit {
   };
 
   login = () => {
-    this.userService.login(this.user).then((res: any) => {
-      if (res['status'] == SUCCESS_STATUS) {
-        this.localStorageService.set('customer', {
-          id: res.data.id,
-          username: res.data.userName,
-          token: res.data.token,
-        });
-        this.router.navigate(['/home']);
-        window.location.reload();
-      }
-    });
+    if (this.userLogin.username && this.userLogin.username) {
+      this.userService.login(this.userLogin).then((res: any) => {
+        if (res['status'] == SUCCESS_STATUS) {
+          this.localStorageService.set('customer', {
+            id: res.data.id,
+            username: res.data.userName,
+            token: res.data.token,
+          });
+          this.router.navigate(['/home']);
+        }else {
+          this.messageError = 'Kiểm tra lại tài khoản và mật khẩu';
+        }
+      });
+    } else {
+      this.messageError = 'Nhập tài khoản và mật khẩu';
+    }
   };
 }

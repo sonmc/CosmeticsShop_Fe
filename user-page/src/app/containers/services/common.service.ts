@@ -37,6 +37,5 @@ export class CommonService {
       );
     });
   };
-
-  setProduct = (products: any) => {};
+ 
 }

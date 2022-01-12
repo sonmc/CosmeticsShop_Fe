@@ -30,7 +30,8 @@ export class StatisticalComponent {
     let fromMonth = "";
     let toMonth = "";
     let fromDay = "";
-    if (month < 10 && month < 1) {
+
+    if (month < 10 && month > 0) {
       fromMonth = "0" + (month > 1 ? month - 1 : 1);
       toMonth = "0" + month;
     }
@@ -42,6 +43,8 @@ export class StatisticalComponent {
 
     if (day < 10) {
       fromDay = "0" + day;
+    } else {
+      fromDay = "" + day;
     }
 
     var todayFrom = fromYear + "-" + fromMonth + "-" + fromDay;
@@ -51,17 +54,19 @@ export class StatisticalComponent {
       dateFrom: todayFrom,
       dateTo: todayTo,
     };
+    debugger;
     this.caculatorStatistical({
       dateFrom: todayFrom,
       dateTo: todayTo,
     });
   }
+
   filter = () => {
+    debugger;
     this.caculatorStatistical(this.dateTime);
   };
 
-  convertData(statisticals){
-
+  convertData(statisticals) {
     let inventories = 0;
     let solds = 0;
     let revenues = 0;
@@ -71,7 +76,7 @@ export class StatisticalComponent {
       return item;
     });
 
-    statisticals.forEach((item) => { 
+    statisticals.forEach((item) => {
       inventories += item.inventory;
       solds += item.soldQuantity;
       revenues += item.revenue;
@@ -90,10 +95,9 @@ export class StatisticalComponent {
       if (res["status"] == SUCCESS_STATUS) {
         let statisticals = res["data"].filter((x) => x.statusOrder < 6);
         let orderCanceled = res["data"].filter((x) => x.statusOrder == 6);
-         
+
         this.statisticals = this.convertData(statisticals);
         this.orderCanceled = this.convertData(orderCanceled);
-       
       }
     });
   };

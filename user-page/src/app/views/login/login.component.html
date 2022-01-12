@@ -4,14 +4,27 @@
       <div class="col-sm-4 col-sm-offset-1">
         <div class="login-form">
           <h2>Login to your account</h2>
-          <form action="#">
-            <input type="text" name="account" [(ngModel)]="user.username" placeholder="Account" />
-            <input type="password" name="password" [(ngModel)]="user.password" placeholder="Password" />
-            <span>
+          <form>
+            <input
+              type="text"
+              name="account"
+              [(ngModel)]="userLogin.username"
+              placeholder="Tài khoản"
+            />
+            <input
+              type="password"
+              name="password"
+              [(ngModel)]="userLogin.password"
+              placeholder="Mật khẩu"
+            />
+            <!--      <span>
               <input type="checkbox" class="checkbox" />
               Keep me signed in
-            </span>
-            <button type="button" (click)='login()' class="btn btn-default">Login</button>
+            </span> -->
+            <span style="color: red">{{ messageError }}</span>
+            <button type="button" (click)="login()" class="btn btn-default">
+              Login
+            </button>
           </form>
         </div>
       </div>
@@ -21,7 +34,7 @@
       <div class="col-sm-4">
         <div class="signup-form">
           <h2>New User Signup!</h2>
-          <form action="#">
+          <form>
             <input
               type="text"
               name="name"

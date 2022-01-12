@@ -24,9 +24,9 @@ export const routes: Routes = [
         path: 'blog',
         loadChildren: () =>
           import('./views/blog/blog.module').then((m) => m.BlogModule),
-      }, 
+      },
       {
-        path: "product-detail/:idDetail", 
+        path: 'product-detail/:idDetail',
         loadChildren: () =>
           import('./views/product-detail/product-detail.module').then(
             (m) => m.ProductDetailModule
@@ -60,6 +60,13 @@ export const routes: Routes = [
         path: 'contact',
         loadChildren: () =>
           import('./views/contact/contact.module').then((m) => m.ContactModule),
+      },
+      {
+        path: 'composition',
+        loadChildren: () =>
+          import('./views/composition/composition.module').then(
+            (m) => m.CompositionModule
+          ),
       },
     ],
   },

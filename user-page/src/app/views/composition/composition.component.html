@@ -1,0 +1,24 @@
+<section>
+  <div class="container" style="width: 85% !important">
+    <div class="row">
+      <div class="col-sm-9">
+        <div class="search_box">
+          <input
+            type="text"
+            name="search"
+            [(ngModel)]="name"
+            (keyup.enter)="search()"
+            placeholder="Tìm kiếm"
+          />
+        </div>
+        <hr />
+        <div class="content-composition">
+          <p>Tên thành phần: {{ composition.name }}</p>
+          <p>Chỉ số kích ứng: {{ composition.levelOfIrritation }}</p>
+          <p>Vai trò: {{ composition.part }}</p>
+          <p>Công dụng: {{ composition.uses }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
