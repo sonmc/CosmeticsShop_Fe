@@ -89,7 +89,6 @@ export class HomeComponent implements OnInit {
   };
 
   setActiveForCategory(indexSelected: number) {
-    debugger;
     this.categories = this.categories.map((element: any, index: number) => {
       if (index + 1 == indexSelected) {
         return { ...element, active: 'activeList' };
@@ -106,15 +105,19 @@ export class HomeComponent implements OnInit {
   }
 
   addToCart = (product: any) => {
-    let order = {
-      productId: product.id,
-      orderId: null,
+    let customer = this.storageService.get('customer');
+    let userId = null;
+    if (customer) {
+      userId = customer.id;
+    }
+    let cart = {
       quantity: 1,
-      balance: product.price,
+      userId: userId,
       clientIp: this.clientIp,
-      userId: null,
+      productId: product.id,
     };
-    this.homeService.createOrderDetail(order).then((res: any) => {
+
+    this.homeService.addToCart(cart).then((res: any) => {
       if (res['status'] == SUCCESS_STATUS) {
         $('#modalConfirm').modal('show');
         this.messageConfirm = 'Thêm vào giỏ hàng thành công!';

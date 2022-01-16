@@ -28,11 +28,7 @@ export class CartComponent implements OnInit {
     {
       key: 1,
       value: "Đặt hàng",
-    },
-    {
-      key: 2,
-      value: "Đã thanh toán",
-    },
+    }, 
     {
       key: 3,
       value: "Đang chuẩn bị hàng",

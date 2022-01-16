@@ -127,4 +127,9 @@ export class BrandComponent implements OnInit {
           };
     this.modalCreate.show();
   };
+  changeField = () => {
+    if (this.brand["name"]) {
+      this.messageError = "";
+    }
+  };
 }

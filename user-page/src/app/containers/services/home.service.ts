@@ -8,7 +8,7 @@ import { API_URL } from '../constants/config';
 export class HomeService {
   constructor(public apiService: ApiService) {}
 
-  getCategory = () => {
+  getCategory = () => { 
     let url = `${API_URL}homes/categories`;
     return this.apiService.get(url);
   };
@@ -37,8 +37,8 @@ export class HomeService {
     return this.apiService.get(url);
   };
 
-  getOrderDetail = (user: any) => {
-    let url = `${API_URL}homes/get-order-detail?userId=${user.userId}&clientIp=${user.clientIp}`;
+  getCart = (user: any) => {
+    let url = `${API_URL}homes/get-cart?userId=${user.userId}&clientIp=${user.clientIp}`;
     return this.apiService.post(url, user);
   };
 
@@ -46,7 +46,7 @@ export class HomeService {
     let url = `${API_URL}homes/delete-order-detail?id=${id}`;
     return this.apiService.get(url);
   };
-  
+
   createCustomer = (customer: any): Promise<Object> => {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}homes/create-customer`;
@@ -61,6 +61,20 @@ export class HomeService {
     });
   };
 
+  addToCart = (cart: any): Promise<Object> => {
+    return new Promise((resolve, reject) => {
+      let url = `${API_URL}homes/add-to-cart`;
+      this.apiService.post(url, cart).subscribe(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
+  };
+  
   createOrderDetail = (orderDetail: any): Promise<Object> => {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}homes/create-order-detail`;
