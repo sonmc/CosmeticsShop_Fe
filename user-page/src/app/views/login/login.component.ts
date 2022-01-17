@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
             token: res.data.token,
           });
           this.router.navigate(['/home']);
-          this.emitDataToHeader({ username: res.data.userName });
+          this.commonService.changeData({ username: res.data.userName });
         } else {
           this.messageError = 'Kiểm tra lại tài khoản và mật khẩu';
         }
@@ -62,7 +62,4 @@ export class LoginComponent implements OnInit {
       this.messageError = 'Nhập tài khoản và mật khẩu';
     }
   };
-  emitDataToHeader(data: any) {
-    this.commonService.changeData(data);
-  }
 }

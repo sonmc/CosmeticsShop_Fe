@@ -19,7 +19,8 @@ export class CategoryComponent implements OnInit {
     description: "",
     isDisabled: false,
   };
-
+  nameSearch: string = "";
+  
   constructor(
     public categoryService: CategoryService,
     public router: Router,
@@ -81,6 +82,19 @@ export class CategoryComponent implements OnInit {
               this.categories.splice(index, 1);
             }
           }
+        }
+      })
+      .catch((e) => {
+        window.alert("Connection Error !");
+      });
+  };
+
+  searchCategoryByName = () => {
+    this.categoryService
+      .searchByName(this.nameSearch)
+      .then((res) => {
+        if (res["status"] == SUCCESS_STATUS) {
+          this.categories = res["data"];
         }
       })
       .catch((e) => {

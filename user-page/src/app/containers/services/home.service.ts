@@ -8,7 +8,7 @@ import { API_URL } from '../constants/config';
 export class HomeService {
   constructor(public apiService: ApiService) {}
 
-  getCategory = () => { 
+  getCategory = () => {
     let url = `${API_URL}homes/categories`;
     return this.apiService.get(url);
   };
@@ -74,7 +74,7 @@ export class HomeService {
       );
     });
   };
-  
+
   createOrderDetail = (orderDetail: any): Promise<Object> => {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}homes/create-order-detail`;
@@ -101,5 +101,14 @@ export class HomeService {
         }
       );
     });
+  };
+  getOrderByUserId = (userId: any) => {
+    let url = `${API_URL}homes/get-order-by-user?userId=${userId}`;
+    return this.apiService.get(url);
+  };
+
+  getOrderDetailByOrderId = (orderId: any) => {
+    let url = `${API_URL}homes/get-order-detail?orderId=${orderId}`;
+    return this.apiService.get(url);
   };
 }

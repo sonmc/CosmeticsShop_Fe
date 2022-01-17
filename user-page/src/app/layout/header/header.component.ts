@@ -9,34 +9,45 @@ import { CommonService } from 'src/app/containers/services/common.service';
 })
 export class HeaderComponent implements OnInit {
   currentUser: any = null;
-  composition: string = '';
+  searchObj: any = { key: '', value: '' };
   message: string = '';
-  page: string = '';
+  page: any = null;
+
   constructor(
     public router: Router,
     private commonService: CommonService,
     private localStorageService: LocalStorageService
   ) {
     this.currentUser = this.localStorageService.get('customer');
-    this.composition = this.localStorageService.get('search');
-
+    this.searchObj = this.localStorageService.get('search') || {
+      key: '',
+      value: '',
+    };
   }
 
   ngOnInit() {
     this.commonService.currentUser.subscribe((data) => {
       this.currentUser = data;
     });
-
+    this.commonService.currentPage.subscribe((page) => {
+      this.page = page;
+      console.log(this.page);
+    });
   }
 
   changePage(page: string) {
     this.router.navigate([page]);
+    this.commonService.changePage(page);
     this.localStorageService.set('search', '');
-    this.composition = '';
+    this.searchObj = { key: '', value: '' };
   }
 
   search = () => {
-    this.localStorageService.set('search', this.composition);
+    this.searchObj = {
+      key: this.page,
+      value: this.searchObj.value,
+    };
+    this.localStorageService.set('search', this.searchObj);
     window.location.reload();
   };
 

@@ -13,9 +13,9 @@ export class ProductService {
     return this.apiService.getWithToken(url);
   };
 
-  searchByName = (value): Promise<Object> => {
+  searchByName = (brandId, name): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}products/search-by-name?name=${value}`;
+      let url = `${API_URL}products/search-by-name?brandId=${brandId}&name=${name}`;
       this.apiService.getWithToken(url).subscribe(
         (res) => {
           resolve(res);
@@ -26,7 +26,7 @@ export class ProductService {
       );
     });
   };
-  
+
   save = (product, type): Promise<Object> => {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}products/${type}`;

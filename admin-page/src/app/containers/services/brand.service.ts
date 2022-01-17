@@ -27,6 +27,20 @@ export class BrandService {
     });
   };
 
+  searchByName = (categoryId, name): Promise<Object> => {
+    return new Promise((resolve, reject) => {
+      let url = `${API_URL}brands/search-by-name?categoryId=${categoryId}&name=${name}`;
+      this.apiService.getWithToken(url).subscribe(
+        (res) => {
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
+  };
+
   remove = (id): Promise<Object> => {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}brands/delete?id=${id}`;

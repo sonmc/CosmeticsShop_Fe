@@ -8,11 +8,16 @@ import * as Rx from 'rxjs';
 })
 export class CommonService {
   currentUser = new Rx.Subject();
+  currentPage = new Rx.Subject();
 
   constructor(public apiService: ApiService) {}
 
   changeData(data: any) {
     this.currentUser.next(data);
+  }
+  
+  changePage(page: any) {
+    this.currentPage.next(page);
   }
 
   upload = (file: any): Promise<Object> => {

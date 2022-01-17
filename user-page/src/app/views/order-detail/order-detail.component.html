@@ -1,0 +1,136 @@
+<section id="cart_items">
+  <div class="container" style="width: 85% !important">
+    <div class="breadcrumbs">
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li class="active">Shopping Cart</li>
+      </ol>
+    </div>
+    <div class="table-responsive cart_info">
+      <table
+        class="table table-condensed table-hover"
+        *ngIf="orders.length > 0"
+      >
+        <thead>
+          <tr class="cart_menu">
+            <th class="code">Mã đặt hàng</th>
+            <th class="customername">Tên khách hàng</th>
+            <th class="price">Địa chỉ</th>
+            <th style="width: 170px" class="quantity">Số điện thoại</th>
+            <th style="width: 200px" class="total">Trạng thái</th>
+            <th style="width: 200px" class="total"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders">
+            <td class="cart_code">
+              <p>{{ order.orderCode }}</p>
+            </td>
+            <td class="cart_customername">
+              <p>{{ order.customerName }}</p>
+            </td>
+            <td class="cart_address">
+              <p>{{ order.customerAddress }}</p>
+            </td>
+            <td class="cart_phone_number">
+              <p>{{ order.customerPhoneNumber }}</p>
+            </td>
+            <td class="cart_phone_number">
+              <p>{{ order.statusName }}</p>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="openOrderDetail(order)"
+              >
+                Chi tiết
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-condensed" *ngIf="orders.length > 0">
+        <thead>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="width: 170px">
+              <b><p class="cart_total_price">Tổng tiền:</p></b>
+            </td>
+            <td style="width: 200px">
+              <b
+                ><p class="cart_total_price">
+                  {{ orders[0].totalBalance }} .đ
+                </p></b
+              >
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div
+  class="modal fade modal-lg"
+  id="modalOrderDetail"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <table
+          class="table table-condensed table-hover"
+          *ngIf="orders.length > 0"
+        >
+          <thead>
+            <tr class="cart_menu">
+              <th class="image"></th>
+              <th class="code">Mã sản phẩm</th>
+              <th class="customername">Tên sản phẩm</th>
+              <th class="price">Giá</th>
+              <th class="quantity">Ngày mua</th>
+              <th class="total">Số lượng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let orderDetail of orderDetails">
+              <td style="height: 100px; width: 100px">
+                <img
+                  *ngIf="orderDetail.product.images"
+                  style="width: 100%; height: 100%"
+                  [src]="orderDetail.product.images"
+                />
+              </td>
+              <td class="cart_code">
+                <p>{{ orderDetail.product.code }}</p>
+              </td>
+              <td class="cart_customername">
+                <p>{{ orderDetail.product.nameProduct }}</p>
+              </td>
+              <td class="cart_address">
+                <p>{{ orderDetail.product.price }}</p>
+              </td>
+              <td class="cart_phone_number">
+                <p>{{ orderDetail.dateTrade }}</p>
+              </td>
+              <td class="cart_phone_number">
+                <p>{{ orderDetail.quantity }}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

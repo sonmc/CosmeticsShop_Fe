@@ -145,10 +145,9 @@ export class ProductComponent implements OnInit {
   };
   searchProductByName = () => {
     this.productService
-      .searchByName(this.nameSearch)
+      .searchByName(this.product["brandId"], this.nameSearch)
       .then((res) => {
         if (res["status"] == SUCCESS_STATUS) {
-          this.toastr.success("Success", "");
           this.products = res["data"];
         }
       })

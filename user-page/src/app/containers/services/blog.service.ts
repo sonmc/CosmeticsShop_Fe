@@ -8,8 +8,8 @@ import { API_URL } from '../constants/config';
 export class BlogService {
   constructor(public apiService: ApiService) {}
 
-  get = () => {
-    let url = `${API_URL}homes/getBlog`;
+  get = (title: string) => {
+    let url = `${API_URL}homes/get-blog?title=${title}`;
     return this.apiService.get(url);
   };
 

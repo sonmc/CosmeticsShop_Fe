@@ -45,6 +45,13 @@ export const routes: Routes = [
           import('./views/cart/cart.module').then((m) => m.CartModule),
       },
       {
+        path: 'order-detail',
+        loadChildren: () =>
+          import('./views/order-detail/order-detail.module').then(
+            (m) => m.OrderDetailModule
+          ),
+      },
+      {
         path: 'login',
         loadChildren: () =>
           import('./views/login/login.module').then((m) => m.LoginModule),

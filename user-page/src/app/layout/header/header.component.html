@@ -126,15 +126,23 @@
                   >Thành phần</a
                 >
               </li>
+              <li>
+                <a href="javascript:;" (click)="changePage('/order-detail')"
+                  >Đơn hàng</a
+                >
+              </li>
             </ul>
           </div>
         </div>
-        <div class="col-sm-3" *ngIf="page !== '/blog'">
+        <div
+          class="col-sm-3"
+          *ngIf="!(page == '/composition' || page == '/order-detail')"
+        >
           <div class="search_box pull-right">
             <input
               type="text"
               name="search"
-              [(ngModel)]="composition"
+              [(ngModel)]="searchObj.value"
               (keyup.enter)="search()"
               placeholder="Tìm kiếm"
             />

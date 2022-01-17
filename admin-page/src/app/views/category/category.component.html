@@ -2,7 +2,30 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <div class="card-header"><b>Danh mục</b></div>
+        <div class="card-header">
+          <b>Danh mục</b>
+          <div class="row" style="margin-top: 20px">
+            <form class="form-inline">
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input
+                    class="form-control"
+                    name="nameSearch"
+                    [(ngModel)]="nameSearch"
+                    placeholder="Tên danh mục"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="searchCategoryByName()"
+              >
+                Tìm kiếm
+              </button>
+            </form>
+          </div>
+        </div>
         <span style="margin-left: 20px; font-style: italic; margin-top: 20px">
           <a (click)="openModal('', 'create')" href="javascript:;">Thêm mới</a>
         </span>

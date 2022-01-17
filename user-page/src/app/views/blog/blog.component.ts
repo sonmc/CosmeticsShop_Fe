@@ -15,15 +15,20 @@ export class BlogComponent implements OnInit {
   currentBlogId: any = 0;
   comments: any = [];
   isShowComment: boolean = false;
-
+  searchObj: any = { key: '', value: '' };
   constructor(
     private blogService: BlogService,
     private localStorageService: LocalStorageService,
     private router: Router
-  ) {}
+  ) {
+    this.searchObj = this.localStorageService.get('search') || {
+      key: '',
+      value: '',
+    };
+  }
 
   ngOnInit(): void {
-    this.blogService.get().subscribe((res: any) => {
+    this.blogService.get(this.searchObj.value).subscribe((res: any) => {
       if (SUCCESS_STATUS == res['status']) {
         this.blogs = res['data'];
         this.blogs = this.blogs.map((blog: any) => {

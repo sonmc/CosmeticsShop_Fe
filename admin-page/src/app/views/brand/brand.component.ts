@@ -24,6 +24,7 @@ export class BrandComponent implements OnInit {
     description: "",
     isDisabled: false,
   };
+  nameSearch: string = "";
 
   constructor(
     public brandService: BrandService,
@@ -104,7 +105,7 @@ export class BrandComponent implements OnInit {
 
   remove = (brand) => {
     this.brandService
-      .save({...brand,isDisabled: true}, "edit")
+      .save({ ...brand, isDisabled: true }, "edit")
       .then((res) => {
         if (res["status"] == SUCCESS_STATUS) {
           this.toastr.success("Success", "");
@@ -120,6 +121,18 @@ export class BrandComponent implements OnInit {
       });
   };
 
+  searchBrandByName = () => {
+    this.brandService
+      .searchByName(this.categoryIdSelected, this.nameSearch)
+      .then((res) => {
+        if (res["status"] == SUCCESS_STATUS) {
+          this.brands = res["data"];
+        }
+      })
+      .catch((e) => {
+        window.alert("Connection Error !");
+      });
+  };
   openModal = (brand, type) => {
     this.messageError = "";
     this.type = type;
