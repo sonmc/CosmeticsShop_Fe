@@ -13,9 +13,9 @@ export class CartService {
     return this.apiService.getWithToken(url);
   };
 
-  searchOrderByCode = (code): Promise<Object> => {
+  searchOrderBySdt = (sdt): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}orders/searchOrderByCode?code=${code}`;
+      let url = `${API_URL}orders/searchOrderBySdt?sdt=${sdt}`;
       this.apiService.getWithToken(url).subscribe(
         (res) => {
           resolve(res);

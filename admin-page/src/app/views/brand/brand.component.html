@@ -39,18 +39,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let ca of brands">
-                  <td>{{ ca.name }}</td>
-                  <td>{{ ca.description }}</td>
+                <tr *ngFor="let br of brands">
+                  <td>{{ br.name }}</td>
+                  <td>{{ br.description }}</td>
                   <td>
                     <button
-                      (click)="openModal(ca, 'edit')"
+                      (click)="openModal(br, 'edit')"
                       class="btn btn-square btn-primary btn-sm"
                     >
                       Chỉnh sửa
                     </button>
                     <button
-                      (click)="remove(ca.brandId)"
+                      (click)="remove(br)"
                       class="btn btn-square btn-danger btn-sm"
                     >
                       Xóa

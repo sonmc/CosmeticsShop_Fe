@@ -9,20 +9,20 @@
             <form class="form-inline">
               <div class="form-group">
                 <label for="category" class="col-md-6"
-                  >Tìm kiếm đơn hàng theo mã</label
+                  >Tìm kiếm đơn hàng theo sdt</label
                 >
                 <div class="col-md-6">
                   <input
                     class="form-control"
-                    name="orderCodeSearch"
-                    [(ngModel)]="orderCodeSearch"
+                    name="sdt"
+                    [(ngModel)]="sdt"
                   />
                 </div>
               </div>
               <button
                 class="btn btn-primary"
                 type="button"
-                (click)="searchOrderByCode()"
+                (click)="searchOrderBySdt()"
               >
                 Tìm kiếm
               </button>

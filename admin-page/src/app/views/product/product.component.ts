@@ -20,6 +20,7 @@ export class ProductComponent implements OnInit {
   products: any;
   brands: any = [];
   type: string;
+  nameSearch: string = "";
   product: Object = {
     images: "",
     nameProduct: "",
@@ -142,7 +143,19 @@ export class ProductComponent implements OnInit {
       this.modalCreate.hide();
     }
   };
-
+  searchProductByName = () => {
+    this.productService
+      .searchByName(this.nameSearch)
+      .then((res) => {
+        if (res["status"] == SUCCESS_STATUS) {
+          this.toastr.success("Success", "");
+          this.products = res["data"];
+        }
+      })
+      .catch((e) => {
+        window.alert("Connection Error !");
+      });
+  };
   remove = (product) => {
     product.isDisabled = true;
     this.productService.remove(product).then((res) => {

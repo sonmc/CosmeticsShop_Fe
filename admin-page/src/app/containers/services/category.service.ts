@@ -11,7 +11,7 @@ export class CategoryService {
 
   
   get = () => {
-    let url = `${API_URL}categories/get`;
+    let url = `${API_URL}categories/get-all`;
     return this.apiService.getWithToken(url);
   }
   

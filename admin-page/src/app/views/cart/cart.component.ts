@@ -11,7 +11,7 @@ import { ToastrService } from "ngx-toastr";
 })
 export class CartComponent implements OnInit {
   @ViewChild("modalUpdate") modalUpdate: ModalDirective;
-  orderCodeSearch: string = "";
+  sdt: string = "";
   carts: any;
   cart: Object = {
     customerAddress: "",
@@ -66,8 +66,8 @@ export class CartComponent implements OnInit {
     );
   }
 
-  searchOrderByCode = () => {
-    this.cartService.searchOrderByCode(this.orderCodeSearch).then((res) => {
+  searchOrderBySdt = () => {
+    this.cartService.searchOrderBySdt(this.sdt).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
         this.carts = res["data"];
       }
