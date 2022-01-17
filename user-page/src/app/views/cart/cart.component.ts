@@ -162,6 +162,7 @@ export class CartComponent implements OnInit {
     this.homeService.deleteOrderDetail(id).subscribe((res: any) => {
       if (res.data && res.status === SUCCESS_STATUS) {
         this.carts = this.carts.filter((x: any) => x.id != res.data.id);
+        this.calculatorTotalBalance(this.carts);
       }
     });
   };

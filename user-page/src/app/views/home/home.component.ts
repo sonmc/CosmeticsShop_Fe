@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
       this.clientIp = res['ip'];
     });
     this.dataSearch = this.storageService.get('search') || '';
+    
   }
 
   ngOnInit(): void {
@@ -50,7 +51,7 @@ export class HomeComponent implements OnInit {
     });
   };
 
-  getProduct = (brandId: any, indexSelected: number) => {
+  getProduct = (brandId: any, indexSelected: number) => { 
     this.homeService
       .getProduct(brandId, this.dataSearch)
       .subscribe((res: any) => {

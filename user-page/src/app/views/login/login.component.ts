@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SUCCESS_STATUS } from 'src/app/containers/constants/config';
 import { UserService } from 'src/app/containers/services/user.service';
 import { LocalStorageService } from 'src/app/containers/services/localStorage/local-storage.service';
+import { CommonService } from 'src/app/containers/services/common.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {}
@@ -51,7 +53,8 @@ export class LoginComponent implements OnInit {
             token: res.data.token,
           });
           this.router.navigate(['/home']);
-        }else {
+          this.emitDataToHeader({ username: res.data.userName });
+        } else {
           this.messageError = 'Kiểm tra lại tài khoản và mật khẩu';
         }
       });
@@ -59,4 +62,7 @@ export class LoginComponent implements OnInit {
       this.messageError = 'Nhập tài khoản và mật khẩu';
     }
   };
+  emitDataToHeader(data: any) {
+    this.commonService.changeData(data);
+  }
 }

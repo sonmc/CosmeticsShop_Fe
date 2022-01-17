@@ -43,7 +43,7 @@ export class HomeService {
   };
 
   deleteOrderDetail = (id: any) => {
-    let url = `${API_URL}homes/delete-order-detail?id=${id}`;
+    let url = `${API_URL}homes/delete-cart?id=${id}`;
     return this.apiService.get(url);
   };
 
