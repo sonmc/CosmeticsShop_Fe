@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { SUCCESS_STATUS } from 'src/app/containers/constants/config';
 import { CommonService } from 'src/app/containers/services/common.service';
 import { HomeService } from 'src/app/containers/services/home.service';
@@ -18,7 +17,6 @@ export class ProductDetailComponent implements OnInit {
     private homeService: HomeService,
     private actRoute: ActivatedRoute,
     private commonService: CommonService,
-    private toastr: ToastrService
   ) {
     this.idDetail = parseInt(this.actRoute.snapshot.params['idDetail']);
     this.commonService.getClientIp().then((res: any) => {

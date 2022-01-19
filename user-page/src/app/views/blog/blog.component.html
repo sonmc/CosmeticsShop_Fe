@@ -206,13 +206,13 @@
             </p>
 
             <hr />
-            <div *ngIf="isShowComment" class="row clearfix">
+            <div *ngIf="blog.isShowComment" class="row clearfix">
               <div class="col-md-12">
                 <div class="card chat-app">
                   <div class="chat">
                     <div class="chat-history">
                       <ul class="m-b-0 chat-container">
-                        <li class="clearfix" *ngFor="let comment of comments">
+                        <li class="clearfix" *ngFor="let comment of blog.comments">
                           <div class="message-data">
                             <span class="message-data-time"
                               >{{ comment.userName }} đã bình luận lúc
@@ -245,7 +245,7 @@
               </div>
             </div>
             <button
-              *ngIf="!isShowComment"
+              *ngIf="!blog.isShowComment"
               (click)="getComment(blog.id)"
               type="button"
               class="btn btn-primary"
@@ -254,8 +254,8 @@
             </button>
             <button
               type="button"
-              *ngIf="isShowComment"
-              (click)="closeComment()"
+              *ngIf="blog.isShowComment"
+              (click)="closeComment(blog.id)"
               class="btn btn-default"
             >
               Đóng

@@ -13,8 +13,6 @@ export class BlogComponent implements OnInit {
   blogs: any = [];
   content: string = '';
   currentBlogId: any = 0;
-  comments: any = [];
-  isShowComment: boolean = false;
   searchObj: any = { key: '', value: '' };
   constructor(
     private blogService: BlogService,
@@ -33,6 +31,7 @@ export class BlogComponent implements OnInit {
         this.blogs = res['data'];
         this.blogs = this.blogs.map((blog: any) => {
           blog['date'] = blog.createdDate.split(' ')[0];
+          blog.isShowComment = false;
           blog['time'] =
             blog.createdDate.split(' ')[1] +
             ' ' +
@@ -45,22 +44,13 @@ export class BlogComponent implements OnInit {
     });
   }
 
-  getComment = (blogId: number) => {
-    this.currentBlogId = blogId;
-    this.blogService.getComments(blogId).subscribe(
-      (res) => {
-        if (SUCCESS_STATUS == res['status']) {
-          this.comments = res['data'];
-        }
-      },
-      (err) => {
-        window.alert('Connection Error !');
+  closeComment = (blogId: number) => {
+    this.blogs = this.blogs.map((blog: any) => {
+      if (blogId == blog.id) {
+        blog.isShowComment = false;
       }
-    );
-    this.isShowComment = true;
-  };
-  closeComment = () => {
-    this.isShowComment = false;
+      return blog;
+    });
   };
 
   comment = () => {
@@ -74,11 +64,24 @@ export class BlogComponent implements OnInit {
       };
       this.blogService.addComment(comment).then((res: any) => {
         if (res['status'] == SUCCESS_STATUS) {
-          this.comments.push(res['data']);
+          this.blogs.forEach((element: any) => {
+            if (element.id == comment.blogId) {
+              element.comments.push(res['data']);
+            }
+          });
+          this.content = '';
         }
       });
     } else {
       this.router.navigate(['/login']);
     }
+  };
+  getComment = (blogId: number) => {
+    this.blogs = this.blogs.map((blog: any) => {
+      if (blogId == blog.id) {
+        blog.isShowComment = true;
+      }
+      return blog;
+    });
   };
 }

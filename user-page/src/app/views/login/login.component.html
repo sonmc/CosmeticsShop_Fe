@@ -39,20 +39,27 @@
               type="text"
               name="name"
               [(ngModel)]="user.username"
-              placeholder="Name"
+              placeholder="Họ tên *"
             />
             <input
               type="email"
               name="email"
               [(ngModel)]="user.email"
-              placeholder="Email Address"
+              placeholder="Địa chỉ email *"
             />
             <input
               type="password"
               name="password"
               [(ngModel)]="user.password"
-              placeholder="Password"
+              placeholder="Mật khẩu *"
             />
+            <input
+            type="password"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            placeholder="Nhập lại mật khẩu *"
+          />
+          <p style="color:red">{{messageErrorSignUp}}</p>
             <button type="button" (click)="register()" class="btn btn-default">
               Signup
             </button>

@@ -19,7 +19,9 @@ export class LoginComponent implements OnInit {
     username: '',
     password: '',
   };
+  confirmPassword: string = '';
   messageError: string = '';
+  messageErrorSignUp: string = '';
 
   constructor(
     private userService: UserService,
@@ -31,20 +33,28 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   register = () => {
-    this.userService.register(this.user).then((res: any) => {
-      if (res['status'] == SUCCESS_STATUS) {
-        this.localStorageService.set('customer', {
-          id: res.data.id,
-          username: res.data.userName,
-          token: res.data.token,
+    if (this.user.password !== this.confirmPassword) {
+      this.messageErrorSignUp = 'Mật khẩu không trùng khớp';
+    } else {
+      if (this.user.username && this.user.email && this.user.password) {
+        this.userService.register(this.user).then((res: any) => {
+          if (res['status'] == SUCCESS_STATUS) {
+            this.localStorageService.set('customer', {
+              id: res.data.id,
+              username: res.data.userName,
+              token: res.data.token,
+            });
+            this.router.navigate(['/home']);
+          }
         });
-        this.router.navigate(['/home']);
+      } else {
+        this.messageErrorSignUp = 'Nhập đầy đủ thông tin';
       }
-    });
+    }
   };
 
   login = () => {
-    if (this.userLogin.username && this.userLogin.username) {
+    if (this.userLogin.username && this.userLogin.password) {
       this.userService.login(this.userLogin).then((res: any) => {
         if (res['status'] == SUCCESS_STATUS) {
           this.localStorageService.set('customer', {
