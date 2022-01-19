@@ -70,6 +70,10 @@ export class CartComponent implements OnInit {
     this.cartService.searchOrderBySdt(this.sdt).then((res) => {
       if (res["status"] == SUCCESS_STATUS) {
         this.carts = res["data"];
+        this.carts = this.carts.map((item) => {
+          item.statusName = this.getStatus(item.status);
+          return item;
+        });
       }
     });
   };

@@ -4,6 +4,27 @@
       <div class="card">
         <div class="card-header">
           <h3><b>Thành phần</b></h3>
+          <div class="row" style="margin-top: 20px">
+            <form class="form-inline">
+              <div class="form-group"> 
+                <div class="col-md-6">
+                  <input
+                    class="form-control"
+                    name="name"
+                    placeholder="Tên thành phần"
+                    [(ngModel)]="compositionName"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="searchComposition()"
+              >
+                Tìm kiếm
+              </button>
+            </form>
+          </div>
         </div>
         <span style="margin-left: 20px; font-style: italic; margin-top: 20px">
           <a (click)="openModal('', 'add')" href="javascript:;">Thêm mới</a>

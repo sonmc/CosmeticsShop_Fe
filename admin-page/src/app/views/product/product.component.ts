@@ -143,6 +143,7 @@ export class ProductComponent implements OnInit {
       this.modalCreate.hide();
     }
   };
+  
   searchProductByName = () => {
     this.productService
       .searchByName(this.product["brandId"], this.nameSearch)
@@ -155,6 +156,7 @@ export class ProductComponent implements OnInit {
         window.alert("Connection Error !");
       });
   };
+
   remove = (product) => {
     product.isDisabled = true;
     this.productService.remove(product).then((res) => {

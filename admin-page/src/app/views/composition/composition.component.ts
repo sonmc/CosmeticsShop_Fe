@@ -20,6 +20,7 @@ export class CompositionComponent implements OnInit {
     uses: "",
     levelOfIrritation: "",
   };
+  compositionName: string = "";
   messageError: string;
   constructor(
     public compositionService: CompositionService,
@@ -81,6 +82,14 @@ export class CompositionComponent implements OnInit {
             this.compositions.splice(index, 1);
           }
         }
+      }
+    });
+  };
+
+  searchComposition = () => {
+    this.compositionService.searchComposition(this.compositionName).then((res) => {
+      if (res["status"] == SUCCESS_STATUS) {
+        this.compositions = res["data"];
       }
     });
   };

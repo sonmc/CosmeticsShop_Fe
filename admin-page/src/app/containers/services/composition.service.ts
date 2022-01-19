@@ -37,5 +37,14 @@ export class CompositionService {
     })
   }
  
-
+  searchComposition = (name): Promise<Object> => {
+    return new Promise((resolve, reject) => {
+      let url = `${API_URL}compositions/search-by-name?name=${name}`;
+      this.apiService.getWithToken(url).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })
+  }
 }
