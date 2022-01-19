@@ -38,7 +38,7 @@
               <h2>{{ product.nameProduct }}</h2>
               <p><b>Mã sản phẩm</b>: {{ product.code }}</p>
               <p><b>Mô tả</b>: {{ product.description }}</p>
-              <p><b>Thành phần: {{product.composition}}</b></p>
+              <p><b>Thành phần: {{product.compositionName}}</b></p>
               <img src="./assets/images/product-details/rating.png" alt="" />
               <span>
                 <span>{{ product.price }} .đ</span>
@@ -68,3 +68,25 @@
     </div>
   </div>
 </section>
+
+<div
+  class="modal fade"
+  id="modalConfirm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h3>{{ messageConfirm }}</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

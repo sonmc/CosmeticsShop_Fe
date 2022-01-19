@@ -46,7 +46,19 @@ export class HomeService {
     let url = `${API_URL}homes/delete-cart?id=${id}`;
     return this.apiService.get(url);
   };
-
+  updateUser= (user: any): Promise<Object> => {
+    return new Promise((resolve, reject) => {
+      let url = `${API_URL}homes/update-user`;
+      this.apiService.postWithToken(url, user).subscribe(
+        (res: any) => {
+          resolve(res);
+        },
+        (err: any) => {
+          reject(err);
+        }
+      );
+    });
+  };
   createCustomer = (customer: any): Promise<Object> => {
     return new Promise((resolve, reject) => {
       let url = `${API_URL}homes/create-customer`;
@@ -75,10 +87,10 @@ export class HomeService {
     });
   };
 
-  createOrderDetail = (orderDetail: any): Promise<Object> => {
+  createOrderDetail = (cart: any): Promise<Object> => {
     return new Promise((resolve, reject) => {
-      let url = `${API_URL}homes/create-order-detail`;
-      this.apiService.post(url, orderDetail).subscribe(
+      let url = `${API_URL}homes/add-to-cart`;
+      this.apiService.post(url, cart).subscribe(
         (res) => {
           resolve(res);
         },
@@ -102,8 +114,8 @@ export class HomeService {
       );
     });
   };
-  getOrderByUserId = (userId: any) => {
-    let url = `${API_URL}homes/get-order-by-user?userId=${userId}`;
+  getOrderByUserId = (userId: any, clientIp: string) => {
+    let url = `${API_URL}homes/get-order-by-user?userId=${userId}&clientIp=${clientIp}`;
     return this.apiService.get(url);
   };
 

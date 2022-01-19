@@ -25,13 +25,18 @@ export class CartComponent implements OnInit {
     private commonService: CommonService,
     private storageService: LocalStorageService,
     private homeService: HomeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     var customer = this.storageService.get('customer');
     this.commonService.getClientIp().then((res: any) => {
       const ip = res['ip'];
-      this.customerInfo.clientIp = ip;
+      if (customer) {
+        this.customerInfo = { ...customer, clientIp: ip }
+      } else {
+        this.customerInfo.clientIp = ip;
+      }
+
       let user = {
         userId: customer?.id || 0,
         clientIp: ip,
@@ -118,6 +123,16 @@ export class CartComponent implements OnInit {
     });
   }
 
+  updateUser(user: any) { 
+    this.homeService.updateUser( {
+      id: user.id, address: user.address, phoneNumber: user.phoneNumber, username: user.username
+    }).then((res: any) => {
+      if (res.data && res.status === SUCCESS_STATUS) {
+        this.createOrder(res.data);
+      }
+    });
+  }
+
   autoGenerateCode() {
     var text = '';
     var possible =
@@ -176,7 +191,19 @@ export class CartComponent implements OnInit {
       this.customerInfo.phoneNumber &&
       this.customerInfo.address
     ) {
-      this.createCustomer();
+      var customer = this.storageService.get('customer');
+      if (customer) {
+        let user = {
+          id: customer.id,
+          phoneNumber: this.customerInfo.phoneNumber+"",
+          address: this.customerInfo.address,
+          username: customer.username
+        }
+        this.updateUser(user);
+      } else {
+        this.createCustomer();
+      }
+
     } else {
       this.infoIsEmpty = 'Xin mời quý khách nhập đầy đủ thông tin liên hệ !';
     }

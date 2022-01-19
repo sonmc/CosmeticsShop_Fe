@@ -54,7 +54,6 @@ export class StatisticalComponent {
       dateFrom: todayFrom,
       dateTo: todayTo,
     };
-    debugger;
     this.caculatorStatistical({
       dateFrom: todayFrom,
       dateTo: todayTo,
@@ -62,42 +61,45 @@ export class StatisticalComponent {
   }
 
   filter = () => {
-    debugger;
     this.caculatorStatistical(this.dateTime);
   };
 
-  convertData(statisticals) {
-    let inventories = 0;
-    let solds = 0;
-    let revenues = 0;
+  convertData(statisticals, type) {
 
     statisticals.map((item) => {
       item.revenue = item.price * item.soldQuantity;
       return item;
     });
 
-    statisticals.forEach((item) => {
-      inventories += item.inventory;
-      solds += item.soldQuantity;
-      revenues += item.revenue;
-    });
 
-    this.totalCalculator = {
-      totalInventory: inventories,
-      totalsoldQuantity: solds,
-      totalRevenues: revenues,
-    };
+    if (type == "BUYED") {
+      let inventories = 0;
+      let solds = 0;
+      let revenues = 0;
+      statisticals.forEach((item) => {
+
+        inventories += item.inventory;
+        solds += item.soldQuantity;
+        revenues += item.revenue;
+
+      });
+      this.totalCalculator = {
+        totalInventory: inventories,
+        totalsoldQuantity: solds,
+        totalRevenues: revenues,
+      };
+    }
     return statisticals;
   }
 
   caculatorStatistical = (dateTime) => {
     this.commonService.caculatorStatistical(dateTime).subscribe((res) => {
       if (res["status"] == SUCCESS_STATUS) {
-        let statisticals = res["data"].filter((x) => x.statusOrder < 6);
+        let statisticals = res["data"].filter((x) => x.statusOrder == 5);
         let orderCanceled = res["data"].filter((x) => x.statusOrder == 6);
 
-        this.statisticals = this.convertData(statisticals);
-        this.orderCanceled = this.convertData(orderCanceled);
+        this.statisticals = this.convertData(statisticals, 'BUYED');
+        this.orderCanceled = this.convertData(orderCanceled, 'CANCEL');
       }
     });
   };

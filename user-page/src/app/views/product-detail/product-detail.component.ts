@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SUCCESS_STATUS } from 'src/app/containers/constants/config';
 import { CommonService } from 'src/app/containers/services/common.service';
 import { HomeService } from 'src/app/containers/services/home.service';
-
+declare var $: any;
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -13,6 +13,7 @@ export class ProductDetailComponent implements OnInit {
   idDetail: number = 0;
   product: any = {};
   clientIp: any = '';
+  messageConfirm: string = "";
   constructor(
     private homeService: HomeService,
     private actRoute: ActivatedRoute,
@@ -44,7 +45,8 @@ export class ProductDetailComponent implements OnInit {
     };
     this.homeService.createOrderDetail(order).then((res: any) => {
       if (res['status'] == SUCCESS_STATUS) {
-        this.toastr.success('Success', 'Thêm vào giỏ hàng thành công');
+        $('#modalConfirm').modal('show');
+        this.messageConfirm = 'Thêm vào giỏ hàng thành công!';
       }
     });
   };

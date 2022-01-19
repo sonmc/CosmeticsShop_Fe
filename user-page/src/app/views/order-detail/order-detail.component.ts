@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SUCCESS_STATUS } from 'src/app/containers/constants/config';
+import { CommonService } from 'src/app/containers/services/common.service';
 import { HomeService } from 'src/app/containers/services/home.service';
 import { LocalStorageService } from 'src/app/containers/services/localStorage/local-storage.service';
 declare var $: any;
@@ -37,13 +38,18 @@ export class OrderDetailComponent implements OnInit {
 
   constructor(
     private homeService: HomeService,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
+    let clientIp = "";
+ 
     let currentUser = this.storageService.get('customer');
-    if (currentUser && currentUser.id) {
-      this.homeService.getOrderByUserId(currentUser.id).subscribe(
+    let uId = currentUser ? currentUser.id : 0;
+    this.commonService.getClientIp().then((res: any) => {
+      clientIp = res['ip'];
+      this.homeService.getOrderByUserId(uId, clientIp).subscribe(
         (res: any) => {
           if (SUCCESS_STATUS == res['status']) {
             this.orders = res['data'];
@@ -57,7 +63,8 @@ export class OrderDetailComponent implements OnInit {
           window.alert('Connection Error !');
         }
       );
-    }
+    });
+   
   }
 
   getStatus = (statusKey: any) => {
