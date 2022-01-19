@@ -61,7 +61,7 @@ export class CartComponent implements OnInit {
   decrease = (product: any) => {
     this.carts = this.carts.map((item: any) => {
       if (product.totalItems >= item.quantity && item.quantity > 1) {
-        if (item.id == product.id) {
+        if (item.productId == product.id) {
           item.quantity--;
           item.balance = parseFloat(
             (item.product.price * item.quantity).toFixed(3)
@@ -77,7 +77,7 @@ export class CartComponent implements OnInit {
     if (target.value && parseInt(target.value) > 0) {
       this.carts = this.carts.map((item: any) => {
         if (product.totalItems > item.quantity) {
-          if (item.id == product.id) {
+          if (item.productId == product.id) {
             item.balance = parseFloat(
               (item.product.price * item.quantity).toFixed(3)
             );
@@ -96,10 +96,10 @@ export class CartComponent implements OnInit {
     }
   };
 
-  increase = (product: any) => {
+  increase = (product: any) => { 
     this.carts = this.carts.map((item: any) => {
       if (product.totalItems > item.quantity) {
-        if (item.id == product.id) {
+        if (item.productId == product.id) {
           item.quantity++;
           item.balance = parseFloat(
             (item.product.price * item.quantity).toFixed(3)
