@@ -11,8 +11,7 @@ import { Router } from '@angular/router';
 })
 export class BlogComponent implements OnInit {
   blogs: any = [];
-  content: string = '';
-  currentBlogId: any = 0;
+  content: string = ''; 
   searchObj: any = { key: '', value: '' };
   constructor(
     private blogService: BlogService,
@@ -53,14 +52,14 @@ export class BlogComponent implements OnInit {
     });
   };
 
-  comment = () => {
+  comment = (blogId: number) => {
     let currentUser = this.localStorageService.get('customer');
     if (currentUser) {
       let comment = {
         content: this.content,
         userId: currentUser.id,
         image: null,
-        blogId: this.currentBlogId,
+        blogId: blogId,
       };
       this.blogService.addComment(comment).then((res: any) => {
         if (res['status'] == SUCCESS_STATUS) {
