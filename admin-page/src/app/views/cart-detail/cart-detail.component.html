@@ -16,6 +16,7 @@
                   <th>Sản phẩm</th>
                   <th>Số lượng</th>
                   <th>Đơn giá</th>
+                  <th>Ngày mua</th>
                   <th></th>
                 </tr>
               </thead>
@@ -24,6 +25,7 @@
                   <td>{{ od.product.nameProduct }}</td>
                   <td>{{ od.quantity }}</td>
                   <td>{{ od.product.price }}</td>
+                  <td>{{od.dateTrade}}</td>
                   <td *ngIf="od.status < 5">
                     <button
                       (click)="openModal(od, 'edit')"
