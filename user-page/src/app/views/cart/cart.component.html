@@ -102,9 +102,7 @@
           </tr>
         </thead>
       </table>
-      <h2 *ngIf="carts.length <= 0">
-        Không có sản phẩm nào được lựa chọn !
-      </h2>
+      <h2 *ngIf="carts.length <= 0">Không có sản phẩm nào được lựa chọn !</h2>
     </div>
   </div>
 </section>
@@ -139,22 +137,23 @@
               [(ngModel)]="customerInfo.userName"
               name="name"
               placeholder="Họ và tên"
-              (change)="changeInfo()"
+              (change)="changeInfo('userName', $event)"
             />
 
             <input
-              type="number"
+              type="text"
               name="phone"
               [(ngModel)]="customerInfo.phoneNumber"
               placeholder="Số điện thoại liên hệ"
-              (change)="changeInfo()"
+              (keypress)="changeInfo('phoneNumber', $event)"
             />
+
             <input
               type="text"
               name="address"
               [(ngModel)]="customerInfo.address"
               placeholder="Địa chỉ giao hàng."
-              (change)="changeInfo()"
+              (change)="changeInfo('address', $event)"
             />
           </form>
         </div>

@@ -25,14 +25,14 @@ export class CartComponent implements OnInit {
     private commonService: CommonService,
     private storageService: LocalStorageService,
     private homeService: HomeService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     var customer = this.storageService.get('customer');
     this.commonService.getClientIp().then((res: any) => {
       const ip = res['ip'];
       if (customer) {
-        this.customerInfo = { ...customer, clientIp: ip }
+        this.customerInfo = { ...customer, clientIp: ip };
       } else {
         this.customerInfo.clientIp = ip;
       }
@@ -123,14 +123,19 @@ export class CartComponent implements OnInit {
     });
   }
 
-  updateUser(user: any) { 
-    this.homeService.updateUser( {
-      id: user.id, address: user.address, phoneNumber: user.phoneNumber, username: user.username
-    }).then((res: any) => {
-      if (res.data && res.status === SUCCESS_STATUS) {
-        this.createOrder(res.data);
-      }
-    });
+  updateUser(user: any) {
+    this.homeService
+      .updateUser({
+        id: user.id,
+        address: user.address,
+        phoneNumber: user.phoneNumber,
+        username: user.username,
+      })
+      .then((res: any) => {
+        if (res.data && res.status === SUCCESS_STATUS) {
+          this.createOrder(res.data);
+        }
+      });
   }
 
   autoGenerateCode() {
@@ -195,27 +200,32 @@ export class CartComponent implements OnInit {
       if (customer) {
         let user = {
           id: customer.id,
-          phoneNumber: this.customerInfo.phoneNumber+"",
+          phoneNumber: this.customerInfo.phoneNumber + '',
           address: this.customerInfo.address,
-          username: customer.username
-        }
+          username: customer.username,
+        };
         this.updateUser(user);
       } else {
         this.createCustomer();
       }
-
     } else {
       this.infoIsEmpty = 'Xin mời quý khách nhập đầy đủ thông tin liên hệ !';
     }
   };
-  changeInfo = () => {
-    if (
-      this.customerInfo.userName &&
-      this.customerInfo.phoneNumber &&
-      this.customerInfo.address
-    ) {
-      this.infoIsEmpty = '';
+  changeInfo = (field: string, event: any) => {
+    if (field == 'phoneNumber') { 
+      const isNumber = isNaN(event.key);
+      if (isNumber) {
+        event.preventDefault(); 
+      }
     } else {
+      if (
+        this.customerInfo.userName &&
+        this.customerInfo.phoneNumber &&
+        this.customerInfo.address
+      ) {
+        this.infoIsEmpty = '';
+      }
     }
   };
 }
